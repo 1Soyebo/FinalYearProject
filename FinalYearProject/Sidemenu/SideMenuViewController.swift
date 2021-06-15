@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 struct SideMenuData {
     let cellName:String
@@ -14,7 +15,7 @@ struct SideMenuData {
 
 class SideMenuViewController: UIViewController {
     
-    let array_sideMenu_data:[SideMenuData] = [.init(cellName: "Warning Threshold", cellImage: "sidemenu card"), .init(cellName: "Power Purchases", cellImage: "sidemenu deliveries")]
+    let array_sideMenu_data:[SideMenuData] = [.init(cellName: "Settings", cellImage: "sidemenu card"), .init(cellName: "Power Purchases", cellImage: "sidemenu deliveries")]
     
     @IBOutlet weak var tblSideMenu: UITableView!
     
@@ -55,8 +56,9 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource{
         tblSideMenu.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
-            let thresholdVC = WarningThresholdViewController(nibName: "WarningThresholdViewController", bundle: nil)
-            navigationController?.pushViewController(thresholdVC, animated: true)
+            //let thresholdVC = WarningThresholdViewController(nibName: "WarningThresholdViewController", bundle: nil)
+            let m = UIHostingController(rootView: SettingsSwiftUI())
+            navigationController?.pushViewController(m, animated: true)
         default:
             print(indexPath.row)
         }

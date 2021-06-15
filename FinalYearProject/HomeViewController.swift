@@ -24,6 +24,11 @@ class HomeViewController: UIViewController {
     var array_power_results = [AdaFruitResult]()
     var array_chart_data_entry = [ChartDataEntry]()
     
+    var availablePower:Double = 0
+    var todayPower:Double = 0
+    var currentPower:Double = 0
+    var overallConsumption:Double = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +46,7 @@ class HomeViewController: UIViewController {
         let data = LineChartData(dataSet: set1)
         myLineChart.data = data
         
+        lblCurrentPower.text = "\(overallConsumption) kwH"
     }
     
     fileprivate func convertToChartDataEntry(){
@@ -56,7 +62,7 @@ class HomeViewController: UIViewController {
 
     fileprivate func getChartData(){
     
-        AF.request("https://adafruitapi.herokuapp.com/api/get/", method: .get).responseJSON(completionHandler: {
+        AF.request("https://adafruitapi.herokuapp.com/api/get/", method: .get).responseJSON(completionHandler: { [self]
             response in
             print(response.value as? NSArray as Any)
             let api_power_results = response.value as? NSArray
@@ -72,26 +78,29 @@ class HomeViewController: UIViewController {
                 let power = json_power_result?["power"] as? String ?? ""
                 let voltage = json_power_result?["voltage"] as? String ?? ""
 
+                //create datestamp formatter
                 let dateStampFormatter = DateFormatter()
                 dateStampFormatter.dateFormat = "yyyy-MM-dd"
                 
+                //create timestmap formatter
                 let timeStampFormatter = DateFormatter()
                 timeStampFormatter.dateFormat = "HH:mm:ss"
-//                timeStampFormatter.timeStyle = .short
                 
+                //trim timestamp
                 let range = time_stamp.index(time_stamp.startIndex, offsetBy: 8)..<time_stamp.index(time_stamp.startIndex, offsetBy: 15)
                 let k = time_stamp.replacingCharacters(in: range, with: "")
-                print(k)
+                
+                overallConsumption = overallConsumption + (Double(power ?? "") ?? 0)
                 
                 let single_power = AdaFruitResult(current: Double(current) ?? 0, date_stamp: date_stamp ?? "", id: id ?? 0, power: Double(power) ?? 0, time_stamp: time_stamp, voltage: Double(voltage) ?? 0, iOSDate: dateStampFormatter.date(from: date_stamp ?? "") ?? Date(), iOSTime: timeStampFormatter.date(from: k) ?? Date())
-                self.array_power_results.append(single_power)
+                array_power_results.append(single_power)
             }
             
             let hmFormatter = DateFormatter()
             hmFormatter.timeStyle = .short
-            self.lblCurrentPower.text = hmFormatter.string(from: self.array_power_results.last?.iOSTime ?? Date())
+            lblCurrentPower.text = hmFormatter.string(from: array_power_results.last?.iOSTime ?? Date())
             
-            self.convertToChartDataEntry()
+            convertToChartDataEntry()
         })
     }
 

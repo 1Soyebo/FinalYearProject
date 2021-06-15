@@ -15,6 +15,7 @@
 		2B471E312673AD1900C2E679 /* HelperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B471E302673AD1900C2E679 /* HelperClass.swift */; };
 		2B471E362673D87200C2E679 /* WarningThresholdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B471E342673D87200C2E679 /* WarningThresholdViewController.swift */; };
 		2B471E372673D87200C2E679 /* WarningThresholdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B471E352673D87200C2E679 /* WarningThresholdViewController.xib */; };
+		2B471E5426791A6D00C2E679 /* SettingsSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B471E5326791A6C00C2E679 /* SettingsSwiftUI.swift */; };
 		2B490E03266A464D00149D0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490E02266A464D00149D0A /* AppDelegate.swift */; };
 		2B490E05266A464D00149D0A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490E04266A464D00149D0A /* SceneDelegate.swift */; };
 		2B490E07266A464D00149D0A /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B490E06266A464D00149D0A /* HomeViewController.swift */; };
@@ -33,6 +34,7 @@
 		2B471E302673AD1900C2E679 /* HelperClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClass.swift; sourceTree = "<group>"; };
 		2B471E342673D87200C2E679 /* WarningThresholdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningThresholdViewController.swift; sourceTree = "<group>"; };
 		2B471E352673D87200C2E679 /* WarningThresholdViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WarningThresholdViewController.xib; sourceTree = "<group>"; };
+		2B471E5326791A6C00C2E679 /* SettingsSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwiftUI.swift; sourceTree = "<group>"; };
 		2B490DFF266A464D00149D0A /* FinalYearProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalYearProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B490E02266A464D00149D0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B490E04266A464D00149D0A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				2B471E0A267385A900C2E679 /* SideMenuViewController.swift */,
 				2B471E342673D87200C2E679 /* WarningThresholdViewController.swift */,
 				2B471E352673D87200C2E679 /* WarningThresholdViewController.xib */,
+				2B471E5326791A6C00C2E679 /* SettingsSwiftUI.swift */,
 			);
 			path = Sidemenu;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				2B471E362673D87200C2E679 /* WarningThresholdViewController.swift in Sources */,
 				2B490E07266A464D00149D0A /* HomeViewController.swift in Sources */,
 				2B471E312673AD1900C2E679 /* HelperClass.swift in Sources */,
+				2B471E5426791A6D00C2E679 /* SettingsSwiftUI.swift in Sources */,
 				2B490E03266A464D00149D0A /* AppDelegate.swift in Sources */,
 				2B490E05266A464D00149D0A /* SceneDelegate.swift in Sources */,
 				2B471E0B267385A900C2E679 /* SideMenuViewController.swift in Sources */,
@@ -340,7 +344,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -395,7 +399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
