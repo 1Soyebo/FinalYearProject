@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SettingsSwiftUI: View {
     
-    @State var purchasedPower = ""
-    @State private var thresholdPower = ""
+    @State var purchasedPower = "\(UserDefUtils.userPurchasedPower)"
+    @State private var thresholdPower = "\(UserDefUtils.userThresholdPower)"
     
     var body: some View {
       

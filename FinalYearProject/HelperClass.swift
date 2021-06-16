@@ -28,45 +28,23 @@ class UserDefUtils {
     
     static var userPurchasedPower:Double{
         get{
-            if let savedData = UserDefaults.standard.value(forKey: purchasedPowerKey) as? Data{
-                do{
-                    return try PropertyListDecoder().decode(Double.self, from: savedData)
-                }catch{
-                    print(error)
-                    return 50
-                }
-            }
-            return 50
+            return  UserDefaults.standard.double(forKey: purchasedPowerKey)
         }
         set{
-            do {
-                UserDefaults.standard.set(try PropertyListEncoder().encode(newValue), forKey: purchasedPowerKey)
-                UserDefaults.standard.synchronize()
-            }catch{
-                print(error)
-            }
+            UserDefaults.standard.set(newValue, forKey: purchasedPowerKey)
+            UserDefaults.standard.synchronize()
+            
         }
     }
     
     static var userThresholdPower:Double{
         get{
-            if let savedData = UserDefaults.standard.value(forKey: thresholdPowerKey) as? Data{
-                do{
-                    return try PropertyListDecoder().decode(Double.self, from: savedData)
-                }catch{
-                    print(error)
-                    return 0
-                }
-            }
-            return 0
+            return  UserDefaults.standard.double(forKey: thresholdPowerKey)
         }
         set{
-            do {
-                UserDefaults.standard.set(try PropertyListEncoder().encode(newValue), forKey: thresholdPowerKey)
-                UserDefaults.standard.synchronize()
-            }catch{
-                print(error)
-            }
+            UserDefaults.standard.set(newValue, forKey: thresholdPowerKey)
+            UserDefaults.standard.synchronize()
+            
         }
     }
 
