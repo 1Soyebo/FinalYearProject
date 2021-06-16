@@ -43,6 +43,7 @@
 		2B490E0B266A465200149D0A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B490E0E266A465200149D0A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B490E10266A465200149D0A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2BA2F5FE267A074C00AD609D /* FinalYearProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinalYearProject.entitlements; sourceTree = "<group>"; };
 		2F2564F04717677ECF73DBA6 /* Pods-FinalYearProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalYearProject.debug.xcconfig"; path = "Target Support Files/Pods-FinalYearProject/Pods-FinalYearProject.debug.xcconfig"; sourceTree = "<group>"; };
 		74E406A8F164F6DA16390616 /* Pods-FinalYearProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalYearProject.release.xcconfig"; path = "Target Support Files/Pods-FinalYearProject/Pods-FinalYearProject.release.xcconfig"; sourceTree = "<group>"; };
 		9568C6FA138B40BA6A3E3400 /* Pods_FinalYearProject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalYearProject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +111,7 @@
 		2B490E01266A464D00149D0A /* FinalYearProject */ = {
 			isa = PBXGroup;
 			children = (
+				2BA2F5FE267A074C00AD609D /* FinalYearProject.entitlements */,
 				2B471E0E267388D000C2E679 /* Api x Connectivity */,
 				2B471E092673856A00C2E679 /* Sidemenu */,
 				2B471DFD2673843900C2E679 /* TableViewCells */,
@@ -415,6 +417,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FinalYearProject/FinalYearProject.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8Y2F29NLGD;
 				INFOPLIST_FILE = FinalYearProject/Info.plist;
@@ -422,7 +425,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.soyeboibukun.FinalYearProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ibukun.FinalYearProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -435,6 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = FinalYearProject/FinalYearProject.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8Y2F29NLGD;
 				INFOPLIST_FILE = FinalYearProject/Info.plist;
@@ -442,7 +446,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.soyeboibukun.FinalYearProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ibukun.FinalYearProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

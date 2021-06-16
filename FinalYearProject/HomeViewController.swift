@@ -8,6 +8,7 @@
 import UIKit
 import Charts
 import Alamofire
+import DateToolsSwift
 
 //2021-06-10
 //18:28:29.694614
@@ -19,34 +20,63 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var lblCurrentPower: UILabel!
     @IBOutlet weak var lblTodayConsumption: UILabel!
     
+    var array_Dates = [Date]()
+    var array_of_array_powerResults = [[AdaFruitResult]]()
     
     @IBOutlet weak var myLineChart: LineChartView!
     var array_power_results = [AdaFruitResult]()
     var array_chart_data_entry = [ChartDataEntry]()
     
     var availablePower:Double = 0
-    var todayPower:Double = 0
+    
+    var todayPower:Double = 0{
+        didSet{
+            lblTodayConsumption.text = "\(todayPower) kwH"
+        }
+    }
+    
     var currentPower:Double = 0
-    var overallConsumption:Double = 0
+    
+    var overallConsumption:Double = 0{
+        didSet{
+            lblAvailable.text = "\(UserDefUtils.userPurchasedPower - overallConsumption) kwH"
+        }
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Home"
         navigationController?.navigationBar.prefersLargeTitles = true
-        getChartData()
+        
         lblAvailable.text = "0 kwH"
         lblCurrentPower.text = "0 kwH"
         lblTodayConsumption.text = "0 kwH"
+        self.getChartData()
+        configureChartView()
+        configureChartView()
 
+//        Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { timer in
+//            self.getChartData()
+//        }
+
+    }
+    
+    fileprivate func configureChartView(){
+        myLineChart.rightAxis.enabled = false
+        
     }
     
     fileprivate func setData(){
         let set1 = LineChartDataSet(entries: array_chart_data_entry)
+        set1.drawCirclesEnabled = false
+        set1.lineWidth = 2
+        set1.fillColor = .black
         let data = LineChartData(dataSet: set1)
+        
         myLineChart.data = data
         
-        lblCurrentPower.text = "\(overallConsumption) kwH"
+        lblCurrentPower.text = "\(array_power_results.last?.power ?? 0) kwH"
     }
     
     fileprivate func convertToChartDataEntry(){
@@ -56,15 +86,14 @@ class HomeViewController: UIViewController {
             let single_chart_data_entry = ChartDataEntry(x: m, y: single_adafruit.power)
             array_chart_data_entry.append(single_chart_data_entry)
         }
+        
         setData()
-
     }
 
     fileprivate func getChartData(){
     
         AF.request("https://adafruitapi.herokuapp.com/api/get/", method: .get).responseJSON(completionHandler: { [self]
             response in
-            print(response.value as? NSArray as Any)
             let api_power_results = response.value as? NSArray
             guard let _array_power_reults = api_power_results else { return  }
             for power_result in _array_power_reults{
@@ -90,18 +119,48 @@ class HomeViewController: UIViewController {
                 let range = time_stamp.index(time_stamp.startIndex, offsetBy: 8)..<time_stamp.index(time_stamp.startIndex, offsetBy: 15)
                 let k = time_stamp.replacingCharacters(in: range, with: "")
                 
-                overallConsumption = overallConsumption + (Double(power ?? "") ?? 0)
+                overallConsumption += (Double(power) ?? 0)
                 
                 let single_power = AdaFruitResult(current: Double(current) ?? 0, date_stamp: date_stamp ?? "", id: id ?? 0, power: Double(power) ?? 0, time_stamp: time_stamp, voltage: Double(voltage) ?? 0, iOSDate: dateStampFormatter.date(from: date_stamp ?? "") ?? Date(), iOSTime: timeStampFormatter.date(from: k) ?? Date())
-                array_power_results.append(single_power)
+                array_Dates.append(single_power.iOSDate)
+
+                array_power_results.insert(single_power, at: 0)
             }
             
+            array_Dates = array_Dates.unique()
+            sortArrayPowerResults()
             let hmFormatter = DateFormatter()
             hmFormatter.timeStyle = .short
             lblCurrentPower.text = hmFormatter.string(from: array_power_results.last?.iOSTime ?? Date())
             
             convertToChartDataEntry()
         })
+    }
+    
+    func sortArrayPowerResults(){
+        
+        for oneDate in array_Dates{
+            
+            let oneArray = array_power_results.filter({
+                $0.iOSDate == oneDate
+            })
+
+            
+            
+            print(oneDate)
+            
+            
+            if oneDate.isToday {
+                for hm in oneArray{
+                    todayPower += hm.power
+                }
+            }
+            
+            array_of_array_powerResults.append(oneArray)
+        }
+        
+        print(array_of_array_powerResults.count)
+        print(array_of_array_powerResults[0])
     }
 
 }
@@ -114,3 +173,9 @@ extension HomeViewController: ChartViewDelegate{
 }
 
 
+extension Sequence where Iterator.Element: Hashable {
+    func unique() -> [Iterator.Element] {
+        var seen: Set<Iterator.Element> = []
+        return filter { seen.insert($0).inserted }
+    }
+}

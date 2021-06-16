@@ -16,6 +16,7 @@ target 'FinalYearProject' do
   pod 'MaterialComponents/TextControls+OutlinedTextFields'
   pod 'SwiftValidator'
   pod 'SwiftyJSON', '~> 4.0'
+  pod 'DateToolsSwift'
 
 
 end

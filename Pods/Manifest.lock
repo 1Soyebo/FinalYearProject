@@ -3,6 +3,7 @@ PODS:
   - Charts (3.6.0):
     - Charts/Core (= 3.6.0)
   - Charts/Core (3.6.0)
+  - DateToolsSwift (5.0.0)
   - Firebase/CoreOnly (7.3.0):
     - FirebaseCore (= 7.3.0)
   - Firebase/Messaging (7.3.0):
@@ -105,6 +106,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Charts
+  - DateToolsSwift
   - Firebase/Messaging
   - IQKeyboardManager
   - "MaterialComponents/TextControls+OutlinedTextFields"
@@ -119,6 +121,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - Charts
+    - DateToolsSwift
     - Firebase
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -142,6 +145,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
+  DateToolsSwift: 4207ada6ad615d8dc076323d27037c94916dbfa6
   Firebase: 26223c695fe322633274198cb19dca8cb7e54416
   FirebaseCore: 4d3c72622ce0e2106aaa07bb4b2935ba2c370972
   FirebaseCoreDiagnostics: d50e11039e5984d92c8a512be2395f13df747350
@@ -162,6 +166,6 @@ SPEC CHECKSUMS:
   SwiftValidator: 0b6a48bf10364411b0d64c97f78665ff87ca9f8b
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: f8ef5c3bac36cc229157445140a2c9bae1097bfe
+PODFILE CHECKSUM: ca5a00a18893dee57bf06e5b8af49cf354c5a318
 
 COCOAPODS: 1.10.0
