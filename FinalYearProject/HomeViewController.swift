@@ -39,7 +39,8 @@ class HomeViewController: UIViewController {
     
     var overallConsumption:Double = 0{
         didSet{
-            lblAvailable.text = "\(UserDefUtils.userPurchasedPower - overallConsumption) kwH"
+            let o_consum2dp = String(format:"%.2f", UserDefUtils.userPurchasedPower - overallConsumption)
+            lblAvailable.text = "\(o_consum2dp) kwH"
         }
     }
     
@@ -103,7 +104,7 @@ class HomeViewController: UIViewController {
     
     fileprivate func convertToChartDataEntry(){
         var m = 0.0
-        
+        array_chart_data_entry = []
         for single_adafruit in array_power_results{
             m = m + 1
             let single_chart_data_entry = ChartDataEntry(x: m, y: single_adafruit.power)
@@ -186,7 +187,7 @@ class HomeViewController: UIViewController {
         }
         
         print(array_of_array_powerResults.count)
-//        print(array_of_array_powerResults[0])
+//         print(array_of_array_powerResults[0])
     }
 
 }
