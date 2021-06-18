@@ -151,7 +151,7 @@ class HomeViewController: UIViewController {
 
                 array_power_results.insert(single_power, at: 0)
             }
-            
+            UserDefUtils.userConsumptionPower = overallConsumption
             array_Dates = array_Dates.unique()
             sortArrayPowerResults()
             let hmFormatter = DateFormatter()
@@ -186,7 +186,7 @@ class HomeViewController: UIViewController {
         }
         
         print(array_of_array_powerResults.count)
-        print(array_of_array_powerResults[0])
+//        print(array_of_array_powerResults[0])
     }
 
 }

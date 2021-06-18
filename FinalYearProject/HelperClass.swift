@@ -49,7 +49,7 @@ class UserDefUtils {
         }
     }
 
-    static var overallPowerConsumptionPower:Double{
+    static var userConsumptionPower:Double{
         get{
             return  UserDefaults.standard.double(forKey: usersPowerConsumptionKey)
         }
