@@ -45,6 +45,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+                let center = UNUserNotificationCenter.current()
+        
+                let content = UNMutableNotificationContent()
+                content.title = "Late wake up call"
+                content.body = "The early bird catches the worm, but the second mouse gets the cheese."
+                content.categoryIdentifier = "alarm"
+                content.userInfo = ["customData": "fizzbuzz"]
+                content.sound = UNNotificationSound.defaultCritical
+        
+                var dateComponents = DateComponents()
+                dateComponents.hour = 10
+                dateComponents.minute = 30
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+        
+                let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                center.add(request) 
     }
 
 

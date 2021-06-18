@@ -48,7 +48,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         self.title = "Home"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
+        registerForNotifications()
         lblAvailable.text = "0 kwH"
         lblCurrentPower.text = "0 kwH"
         lblTodayConsumption.text = "0 kwH"
@@ -56,23 +56,45 @@ class HomeViewController: UIViewController {
         configureChartView()
         configureChartView()
 
-//        Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { timer in
-//            self.getChartData()
-//        }
+        Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { timer in
+            self.getChartData()
+        }
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.async { [self] in
+            lblAvailable.text = "\(UserDefUtils.userPurchasedPower - overallConsumption) kwH"
+        }
     }
     
     fileprivate func configureChartView(){
         myLineChart.rightAxis.enabled = false
+        myLineChart.xAxis.labelTextColor = .gray
+        
+    
+        
+        
+//        myLineChart.leftAxis.title
         
     }
     
     fileprivate func setData(){
         let set1 = LineChartDataSet(entries: array_chart_data_entry)
         set1.drawCirclesEnabled = false
-        set1.lineWidth = 2
+        set1.lineWidth = 3
         set1.fillColor = .black
+        set1.mode = .cubicBezier
+        set1.fillAlpha = 0.8
+        set1.fill = Fill(color: .gray)
+        set1.drawFilledEnabled = false
+        
+        
+        
         let data = LineChartData(dataSet: set1)
+        
+        data.setDrawValues(false)
         
         myLineChart.data = data
         
@@ -81,6 +103,7 @@ class HomeViewController: UIViewController {
     
     fileprivate func convertToChartDataEntry(){
         var m = 0.0
+        
         for single_adafruit in array_power_results{
             m = m + 1
             let single_chart_data_entry = ChartDataEntry(x: m, y: single_adafruit.power)
@@ -96,6 +119,8 @@ class HomeViewController: UIViewController {
             response in
             let api_power_results = response.value as? NSArray
             guard let _array_power_reults = api_power_results else { return  }
+            array_power_results = []
+            overallConsumption = 0
             for power_result in _array_power_reults{
                 
                 let json_power_result = power_result as? [String:Any]
@@ -137,6 +162,7 @@ class HomeViewController: UIViewController {
         })
     }
     
+    
     func sortArrayPowerResults(){
         
         for oneDate in array_Dates{
@@ -145,12 +171,12 @@ class HomeViewController: UIViewController {
                 $0.iOSDate == oneDate
             })
 
-            
-            
+
             print(oneDate)
             
             
             if oneDate.isToday {
+                todayPower = 0
                 for hm in oneArray{
                     todayPower += hm.power
                 }
@@ -177,5 +203,27 @@ extension Sequence where Iterator.Element: Hashable {
     func unique() -> [Iterator.Element] {
         var seen: Set<Iterator.Element> = []
         return filter { seen.insert($0).inserted }
+    }
+}
+
+
+extension HomeViewController: UNUserNotificationCenterDelegate{
+    fileprivate func registerForNotifications(){
+        if #available(iOS 10.0, *) {
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
+
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
+        } else {
+          let settings: UIUserNotificationSettings =
+          UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+
+        UIApplication.shared.registerForRemoteNotifications()
+
     }
 }

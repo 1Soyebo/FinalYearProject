@@ -24,6 +24,7 @@ class UserDefUtils {
     
     static private var purchasedPowerKey = "purchasedPower"
     static private var thresholdPowerKey = "thresholdPower"
+    static private var usersPowerConsumptionKey = "overallPower"
     
     
     static var userPurchasedPower:Double{
@@ -48,6 +49,15 @@ class UserDefUtils {
         }
     }
 
-    
+    static var overallPowerConsumptionPower:Double{
+        get{
+            return  UserDefaults.standard.double(forKey: usersPowerConsumptionKey)
+        }
+        set{
+            UserDefaults.standard.set(newValue, forKey: usersPowerConsumptionKey)
+            UserDefaults.standard.synchronize()
+            
+        }
+    }
     
 }
