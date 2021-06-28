@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 struct AdaFruitResult {
     var current:Double
@@ -16,6 +17,15 @@ struct AdaFruitResult {
     var voltage:Double
     var iOSDate:Date
     var iOSTime:Date
+    
+    func createPAdaObject() -> PersistentAdaFruit{
+        let hmm:PersistentAdaFruit = .init(date_stamp: self.date_stamp, time_stamp: self.time_stamp, iOSDate: self.iOSDate, iOSTime: self.iOSTime)
+        hmm.current = RealmOptional(self.current)
+        hmm.id = RealmOptional(self.id)
+        hmm.power = RealmOptional(self.power)
+        hmm.voltage = RealmOptional(self.voltage)
+        return hmm
+    }
     
 }
 
