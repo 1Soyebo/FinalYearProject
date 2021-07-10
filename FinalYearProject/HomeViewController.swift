@@ -16,7 +16,8 @@ import DateToolsSwift
 
 class HomeViewController: UIViewController {
     
-//    let localRealm = try! Realm()
+    @IBOutlet weak var historyCollectionView: UICollectionView!
+    //    let localRealm = try! Realm()
     
     @IBOutlet weak var lblData: UILabel!
     @IBOutlet weak var lblAvailable: UILabel!
@@ -28,7 +29,7 @@ class HomeViewController: UIViewController {
     
 //    var array_realm_persistentAdaFruit: Results<ArraysPersistentAdaFruit>?
     
-    @IBOutlet weak var myLineChart: LineChartView!
+//    @IBOutlet weak var myLineChart: LineChartView!
     var array_power_results = [AdaFruitResult]()
     var array_chart_data_entry = [ChartDataEntry]()
     
@@ -56,11 +57,8 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         registerForNotifications()
         setLabels()
-//        localRealm.deleteAll()
-//        print(3)
-//        readFromRealm()
         self.getChartData()
-        configureChartView()
+        configureColledtionView()
 //        repeateGetREquest()
     }
     
@@ -72,32 +70,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-//    func readFromRealm(){
-//        array_realm_persistentAdaFruit = localRealm.objects(ArraysPersistentAdaFruit.self)
-////        print(array_realm_persistentAdaFruit?.count)
-//        if let unwrapped_Array_realm_persistentAdaFruit = array_realm_persistentAdaFruit{
-//            if unwrapped_Array_realm_persistentAdaFruit.count > 0{
-//                var ha = [AdaFruitResult]()
-//                var num = 0
-////                for index_num in 0..<unwrapped_Array_realm_persistentAdaFruit.count-1{
-//                    for why in unwrapped_Array_realm_persistentAdaFruit[0].listOfPersAdafruits{
-//                        num += 1
-//                        ha.append(AdaFruitResult.init(current: why.current.value ?? 0, date_stamp: why.date_stamp ?? "", id: why.id.value  ?? 0, power: why.power.value  ?? 0, time_stamp: why.time_stamp  ?? "", voltage: why.voltage.value  ?? 0, iOSDate: why.iOSDate ?? Date(), iOSTime: why.iOSTime ?? Date()))
-//                    }
-////                    if num == 1{
-////                        break;
-////                    }
-//
-////                }
-//
-//                print(num)
-//                convertToChartDataEntry(array_adafruit: ha)
-//            }
-//        }
-//        getChartData()
-//
-//
-//    }
+
     
     fileprivate func setLabels(){
         lblAvailable.text = "0 kwH"
@@ -111,15 +84,18 @@ class HomeViewController: UIViewController {
         }
     }
     
-    fileprivate func configureChartView(){
-        myLineChart.rightAxis.enabled = false
-        myLineChart.xAxis.labelTextColor = .gray
-        myLineChart.noDataText = "Downloading Chart Data..."
-        myLineChart.chartDescription?.text = "Time"
     
-        let firstLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UIColor.black)
-        myLineChart.legend.setCustom(entries: [firstLegend])
-//        myLineChart.xAxis.valueFormatter =
+    
+    fileprivate func configureColledtionView(){
+        historyCollectionView.delegate = self
+        historyCollectionView.dataSource = self
+        historyCollectionView.register(HistoryCVC.getNib(), forCellWithReuseIdentifier: HistoryCVC.identifier)
+        historyCollectionView.isPagingEnabled = true
+        if let flowlayout = historyCollectionView.collectionViewLayout as? UICollectionViewFlowLayout{
+            flowlayout.scrollDirection = .horizontal
+            flowlayout.minimumLineSpacing = 0
+            
+        }
         
     }
     
@@ -136,7 +112,7 @@ class HomeViewController: UIViewController {
         let data = LineChartData(dataSet: set1)
         
         data.setDrawValues(false)
-        myLineChart.data = data
+//        myLineChart.data = data
         let formattedLastPower = String(format:"%.2f", array_power_results.last?.power ?? 0)
         lblCurrentPower.text = "\(formattedLastPower) kwH"
     }
@@ -151,7 +127,7 @@ class HomeViewController: UIViewController {
                 
                 let single_chart_data_entry = ChartDataEntry(x:m, y: single_adafruit.power)
                 array_chart_data_entry.append(single_chart_data_entry)
-                myLineChart.xAxis.valueFormatter = DateValueFormatter(objects: array_adafruit)
+//                myLineChart.xAxis.valueFormatter = DateValueFormatter(objects: array_adafruit)
             }
         }
         setData()
@@ -204,46 +180,14 @@ class HomeViewController: UIViewController {
             UserDefUtils.userConsumptionPower = overallConsumption
             array_Dates = array_Dates.unique()
             sortArrayPowerResults()
-            checkIfLastDataFromAPICallIsTheSameAsRealm()
+//            checkIfLastDataFromAPICallIsTheSameAsRealm()
+            sortArrayPowerResults()
+            historyCollectionView.reloadData()
+
 //            convertToChartDataEntry(array_adafruit: array_power_results)
         })
     }
     
-    fileprivate func checkIfLastDataFromAPICallIsTheSameAsRealm(){
-        
-//        if let array_realm_persistentAdaFruit = array_realm_persistentAdaFruit{
-//            let hmm = Array(array_realm_persistentAdaFruit)
-//            let hmmflatmap = hmm.flatMap({
-//                k in k.listOfPersAdafruits
-//            })
-//            print(hmmflatmap)
-//            print(1)
-//        localRealm.deleteAll()
-            
-        sortArrayPowerResults()
-            
-//            if let last_array_realm_persistentAdaFruit = array_realm_persistentAdaFruit.last{
-//                if let last_last_array_realm_persistentAdaFruit = last_array_realm_persistentAdaFruit.listOfPersAdafruits.last{
-//                    if let last_last_array_realm_persistentAdaFruit_id = last_last_array_realm_persistentAdaFruit.id.value{
-//                        if let nonpersistentLast = array_power_results.last{
-//
-//                            if last_last_array_realm_persistentAdaFruit_id == nonpersistentLast.id{
-//                                return
-//                            }else{
-//
-//                                let oneArray = array_power_results.filter({
-//                                    $0.iOSDate == nonpersistentLast.iOSDate
-//                                })
-//
-//
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        
-    }
     
     func sortArrayPowerResults(){
         
@@ -295,12 +239,6 @@ extension HomeViewController: ChartViewDelegate{
 }
 
 
-extension Sequence where Iterator.Element: Hashable {
-    func unique() -> [Iterator.Element] {
-        var seen: Set<Iterator.Element> = []
-        return filter { seen.insert($0).inserted }
-    }
-}
 
 
 extension HomeViewController: UNUserNotificationCenterDelegate{
@@ -321,5 +259,35 @@ extension HomeViewController: UNUserNotificationCenterDelegate{
 
         UIApplication.shared.registerForRemoteNotifications()
 
+    }
+}
+
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return array_Dates.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let historyCVCell = historyCollectionView.dequeueReusableCell(withReuseIdentifier: HistoryCVC.identifier, for: indexPath) as! HistoryCVC
+        historyCVCell.labelDate.text = "\(array_Dates[indexPath.item].toShortString())"
+        return historyCVCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return .init(width: historyCollectionView.frame.width, height: historyCollectionView.frame.height)
+    }
+    
+    
+}
+
+
+extension Date{
+    
+    func toShortString() -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        return dateFormatter.string(from: self)
     }
 }
