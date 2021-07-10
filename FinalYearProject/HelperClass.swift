@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Charts
 
 struct AdaFruitResult {
     var current:Double
@@ -70,4 +71,23 @@ class UserDefUtils {
         }
     }
     
+}
+
+public class DateValueFormatter: NSObject, IAxisValueFormatter {
+    private let dateFormatter = DateFormatter()
+    private let objects:[AdaFruitResult]
+    
+    init(objects: [AdaFruitResult]) {
+        self.objects = objects
+        super.init()
+        dateFormatter.dateFormat = "HH:mm"
+    }
+    
+    public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        if value >= 0 && value < Double(objects.count){
+            let object = objects[Int(value)]
+            return dateFormatter.string(from: object.iOSTime)
+        }
+        return ""
+    }
 }

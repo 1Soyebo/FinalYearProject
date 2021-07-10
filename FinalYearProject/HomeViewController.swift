@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 import Alamofire
-import RealmSwift
+//import RealmSwift
 import DateToolsSwift
 
 //2021-06-10
@@ -16,7 +16,7 @@ import DateToolsSwift
 
 class HomeViewController: UIViewController {
     
-    let localRealm = try! Realm()
+//    let localRealm = try! Realm()
     
     @IBOutlet weak var lblData: UILabel!
     @IBOutlet weak var lblAvailable: UILabel!
@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
     var array_Dates = [Date]()
     var array_of_array_powerResults = [[AdaFruitResult]]()
     
-    var array_realm_persistentAdaFruit: Results<ArraysPersistentAdaFruit>?
+//    var array_realm_persistentAdaFruit: Results<ArraysPersistentAdaFruit>?
     
     @IBOutlet weak var myLineChart: LineChartView!
     var array_power_results = [AdaFruitResult]()
@@ -58,8 +58,8 @@ class HomeViewController: UIViewController {
         setLabels()
 //        localRealm.deleteAll()
 //        print(3)
-        readFromRealm()
-//        self.getChartData()
+//        readFromRealm()
+        self.getChartData()
         configureChartView()
 //        repeateGetREquest()
     }
@@ -72,29 +72,32 @@ class HomeViewController: UIViewController {
         }
     }
     
-    func readFromRealm(){
-        array_realm_persistentAdaFruit = localRealm.objects(ArraysPersistentAdaFruit.self)
-//        print(array_realm_persistentAdaFruit?.count)
-        if let unwrapped_Array_realm_persistentAdaFruit = array_realm_persistentAdaFruit{
-            if unwrapped_Array_realm_persistentAdaFruit.count > 0{
-                var ha = [AdaFruitResult]()
-                var num = 0
-                for index_num in 0..<unwrapped_Array_realm_persistentAdaFruit.count-1{
-                    for why in unwrapped_Array_realm_persistentAdaFruit[index_num].listOfPersAdafruits{
-                        num += 1
-                        ha.append(AdaFruitResult.init(current: why.current.value ?? 0, date_stamp: why.date_stamp ?? "", id: why.id.value  ?? 0, power: why.power.value  ?? 0, time_stamp: why.time_stamp  ?? "", voltage: why.voltage.value  ?? 0, iOSDate: why.iOSDate ?? Date(), iOSTime: why.iOSTime ?? Date()))
-                    }
-                    
-                }
-                
-                print(num)
-                convertToChartDataEntry(array_adafruit: ha)
-            }
-        }
-        getChartData()
-
-
-    }
+//    func readFromRealm(){
+//        array_realm_persistentAdaFruit = localRealm.objects(ArraysPersistentAdaFruit.self)
+////        print(array_realm_persistentAdaFruit?.count)
+//        if let unwrapped_Array_realm_persistentAdaFruit = array_realm_persistentAdaFruit{
+//            if unwrapped_Array_realm_persistentAdaFruit.count > 0{
+//                var ha = [AdaFruitResult]()
+//                var num = 0
+////                for index_num in 0..<unwrapped_Array_realm_persistentAdaFruit.count-1{
+//                    for why in unwrapped_Array_realm_persistentAdaFruit[0].listOfPersAdafruits{
+//                        num += 1
+//                        ha.append(AdaFruitResult.init(current: why.current.value ?? 0, date_stamp: why.date_stamp ?? "", id: why.id.value  ?? 0, power: why.power.value  ?? 0, time_stamp: why.time_stamp  ?? "", voltage: why.voltage.value  ?? 0, iOSDate: why.iOSDate ?? Date(), iOSTime: why.iOSTime ?? Date()))
+//                    }
+////                    if num == 1{
+////                        break;
+////                    }
+//
+////                }
+//
+//                print(num)
+//                convertToChartDataEntry(array_adafruit: ha)
+//            }
+//        }
+//        getChartData()
+//
+//
+//    }
     
     fileprivate func setLabels(){
         lblAvailable.text = "0 kwH"
@@ -112,7 +115,11 @@ class HomeViewController: UIViewController {
         myLineChart.rightAxis.enabled = false
         myLineChart.xAxis.labelTextColor = .gray
         myLineChart.noDataText = "Downloading Chart Data..."
-        myLineChart.chartDescription?.text = "Power in Kwh"
+        myLineChart.chartDescription?.text = "Time"
+    
+        let firstLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UIColor.black)
+        myLineChart.legend.setCustom(entries: [firstLegend])
+//        myLineChart.xAxis.valueFormatter =
         
     }
     
@@ -130,7 +137,8 @@ class HomeViewController: UIViewController {
         
         data.setDrawValues(false)
         myLineChart.data = data
-        lblCurrentPower.text = "\(array_power_results.last?.power ?? 0) kwH"
+        let formattedLastPower = String(format:"%.2f", array_power_results.last?.power ?? 0)
+        lblCurrentPower.text = "\(formattedLastPower) kwH"
     }
     
     fileprivate func convertToChartDataEntry(array_adafruit: [AdaFruitResult]){
@@ -139,8 +147,11 @@ class HomeViewController: UIViewController {
         if array_adafruit.count > 0{
             for single_adafruit in array_adafruit{
                 m = m + 1
-                let single_chart_data_entry = ChartDataEntry(x: Double("\(single_adafruit.iOSTime.hour).\(single_adafruit.iOSTime.minute)") ?? 0, y: single_adafruit.power)
+//                let single_chart_data_entry = ChartDataEntry(x: Double("\(single_adafruit.iOSTime.hour).\(single_adafruit.iOSTime.minute)") ?? 0, y: single_adafruit.power)
+                
+                let single_chart_data_entry = ChartDataEntry(x:m, y: single_adafruit.power)
                 array_chart_data_entry.append(single_chart_data_entry)
+                myLineChart.xAxis.valueFormatter = DateValueFormatter(objects: array_adafruit)
             }
         }
         setData()
@@ -155,7 +166,7 @@ class HomeViewController: UIViewController {
             array_power_results = []
             overallConsumption = 0
 //            var oldtime:Date = 12.seconds.earlier
-            let time_diff:Double = 12/3600
+            let time_diff:Double = 3/3600000
             for power_result in _array_power_reults{
                 
                 let json_power_result = power_result as? [String:Any]
@@ -200,14 +211,14 @@ class HomeViewController: UIViewController {
     
     fileprivate func checkIfLastDataFromAPICallIsTheSameAsRealm(){
         
-        if let array_realm_persistentAdaFruit = array_realm_persistentAdaFruit{
-            let hmm = Array(array_realm_persistentAdaFruit)
+//        if let array_realm_persistentAdaFruit = array_realm_persistentAdaFruit{
+//            let hmm = Array(array_realm_persistentAdaFruit)
 //            let hmmflatmap = hmm.flatMap({
 //                k in k.listOfPersAdafruits
 //            })
 //            print(hmmflatmap)
 //            print(1)
-        localRealm.deleteAll()
+//        localRealm.deleteAll()
             
         sortArrayPowerResults()
             
@@ -230,7 +241,7 @@ class HomeViewController: UIViewController {
 //                    }
 //                }
 //            }
-        }
+//        }
         
     }
     
@@ -251,9 +262,9 @@ class HomeViewController: UIViewController {
                 oneArrPersistentPowerResult.consumpitonTotal.value = (oneArrPersistentPowerResult.consumpitonTotal.value ?? 0) + (ah.power.value ?? 0)
             }
             
-            try! localRealm.write {
-                localRealm.add(oneArrPersistentPowerResult)
-            }
+//            try! localRealm.write {
+//                localRealm.add(oneArrPersistentPowerResult)
+//            }
             
             print(oneDate)
             
@@ -270,6 +281,8 @@ class HomeViewController: UIViewController {
         
         print(array_of_array_powerResults.count)
 //         print(array_of_array_powerResults[0])
+                    convertToChartDataEntry(array_adafruit: array_of_array_powerResults[2])
+
     }
 
 }
