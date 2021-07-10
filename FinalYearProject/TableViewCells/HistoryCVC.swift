@@ -17,7 +17,8 @@ class HistoryCVC: UICollectionViewCell {
         return .init(nibName: identifier, bundle: nil)
     }
     
-    
+    var array_chart_data_entry = [ChartDataEntry]()
+
 
     @IBOutlet weak var historyLineChart: LineChartView!
     @IBOutlet weak var labelDate: UILabel!
@@ -40,6 +41,40 @@ class HistoryCVC: UICollectionViewCell {
         historyLineChart.legend.setCustom(entries: [firstLegend])
 //        myLineChart.xAxis.valueFormatter =
         
+    }
+    
+    fileprivate func setData(){
+        let set1 = LineChartDataSet(entries: array_chart_data_entry)
+        set1.drawCirclesEnabled = false
+        set1.lineWidth = 3
+        set1.fillColor = .black
+        set1.mode = .cubicBezier
+        set1.fillAlpha = 0.2
+        set1.fill = Fill(color: .gray)
+        set1.drawFilledEnabled = false
+        
+        let data = LineChartData(dataSet: set1)
+        
+        data.setDrawValues(false)
+        historyLineChart.data = data
+//        let formattedLastPower = String(format:"%.2f", array_power_results.last?.power ?? 0)
+//        lblCurrentPower.text = "\(formattedLastPower) kwH"
+    }
+    
+    func convertToChartDataEntry(array_adafruit: [AdaFruitResult]){
+        var m = 0.0
+        array_chart_data_entry = []
+        if array_adafruit.count > 0{
+            for single_adafruit in array_adafruit{
+                m = m + 1
+//                let single_chart_data_entry = ChartDataEntry(x: Double("\(single_adafruit.iOSTime.hour).\(single_adafruit.iOSTime.minute)") ?? 0, y: single_adafruit.power)
+                
+                let single_chart_data_entry = ChartDataEntry(x:m, y: single_adafruit.power)
+                array_chart_data_entry.append(single_chart_data_entry)
+                historyLineChart.xAxis.valueFormatter = DateValueFormatter(objects: array_adafruit)
+            }
+        }
+        setData()
     }
     
 }

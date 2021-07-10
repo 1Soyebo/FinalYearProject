@@ -31,7 +31,6 @@ class HomeViewController: UIViewController {
     
 //    @IBOutlet weak var myLineChart: LineChartView!
     var array_power_results = [AdaFruitResult]()
-    var array_chart_data_entry = [ChartDataEntry]()
     
     var availablePower:Double = 0
     
@@ -99,39 +98,7 @@ class HomeViewController: UIViewController {
         
     }
     
-    fileprivate func setData(){
-        let set1 = LineChartDataSet(entries: array_chart_data_entry)
-        set1.drawCirclesEnabled = false
-        set1.lineWidth = 3
-        set1.fillColor = .black
-        set1.mode = .cubicBezier
-        set1.fillAlpha = 0.2
-        set1.fill = Fill(color: .gray)
-        set1.drawFilledEnabled = false
-        
-        let data = LineChartData(dataSet: set1)
-        
-        data.setDrawValues(false)
-//        myLineChart.data = data
-        let formattedLastPower = String(format:"%.2f", array_power_results.last?.power ?? 0)
-        lblCurrentPower.text = "\(formattedLastPower) kwH"
-    }
     
-    fileprivate func convertToChartDataEntry(array_adafruit: [AdaFruitResult]){
-        var m = 0.0
-        array_chart_data_entry = []
-        if array_adafruit.count > 0{
-            for single_adafruit in array_adafruit{
-                m = m + 1
-//                let single_chart_data_entry = ChartDataEntry(x: Double("\(single_adafruit.iOSTime.hour).\(single_adafruit.iOSTime.minute)") ?? 0, y: single_adafruit.power)
-                
-                let single_chart_data_entry = ChartDataEntry(x:m, y: single_adafruit.power)
-                array_chart_data_entry.append(single_chart_data_entry)
-//                myLineChart.xAxis.valueFormatter = DateValueFormatter(objects: array_adafruit)
-            }
-        }
-        setData()
-    }
 
     fileprivate func getChartData(){
     
@@ -225,7 +192,7 @@ class HomeViewController: UIViewController {
         
         print(array_of_array_powerResults.count)
 //         print(array_of_array_powerResults[0])
-                    convertToChartDataEntry(array_adafruit: array_of_array_powerResults[2])
+//        convertToChartDataEntry(array_adafruit: array_of_array_powerResults[2])
 
     }
 
@@ -272,6 +239,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let historyCVCell = historyCollectionView.dequeueReusableCell(withReuseIdentifier: HistoryCVC.identifier, for: indexPath) as! HistoryCVC
         historyCVCell.labelDate.text = "\(array_Dates[indexPath.item].toShortString())"
+//        DispatchQueue.main.async {
+//            
+//        }
+        historyCVCell.convertToChartDataEntry(array_adafruit: self.array_of_array_powerResults[indexPath.item])
         return historyCVCell
     }
     
