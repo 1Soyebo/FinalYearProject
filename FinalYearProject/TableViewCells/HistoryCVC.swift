@@ -36,8 +36,9 @@ class HistoryCVC: UICollectionViewCell {
         historyLineChart.xAxis.labelTextColor = .gray
         historyLineChart.noDataText = "Downloading Chart Data..."
         historyLineChart.chartDescription?.text = "Time"
-    
-        let firstLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UIColor.black)
+        
+        
+        let firstLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UIColor.blue)
         historyLineChart.legend.setCustom(entries: [firstLegend])
 //        myLineChart.xAxis.valueFormatter =
         
@@ -48,17 +49,17 @@ class HistoryCVC: UICollectionViewCell {
         set1.drawCirclesEnabled = false
         set1.lineWidth = 3
         set1.fillColor = .black
-        set1.mode = .cubicBezier
+        set1.mode = .linear
         set1.fillAlpha = 0.2
         set1.fill = Fill(color: .gray)
         set1.drawFilledEnabled = false
         
-        let data = LineChartData(dataSet: set1)
         
+        let data = LineChartData(dataSet: set1)
+    
         data.setDrawValues(false)
+        
         historyLineChart.data = data
-//        let formattedLastPower = String(format:"%.2f", array_power_results.last?.power ?? 0)
-//        lblCurrentPower.text = "\(formattedLastPower) kwH"
     }
     
     func convertToChartDataEntry(array_adafruit: [AdaFruitResult]){
@@ -67,8 +68,6 @@ class HistoryCVC: UICollectionViewCell {
         if array_adafruit.count > 0{
             for single_adafruit in array_adafruit{
                 m = m + 1
-//                let single_chart_data_entry = ChartDataEntry(x: Double("\(single_adafruit.iOSTime.hour).\(single_adafruit.iOSTime.minute)") ?? 0, y: single_adafruit.power)
-                
                 let single_chart_data_entry = ChartDataEntry(x:m, y: single_adafruit.power)
                 array_chart_data_entry.append(single_chart_data_entry)
                 historyLineChart.xAxis.valueFormatter = DateValueFormatter(objects: array_adafruit)

@@ -45,29 +45,47 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        
+        let center = UNUserNotificationCenter.current()
+
         let leftoverPower = UserDefUtils.userPurchasedPower - UserDefUtils.userConsumptionPower 
         if leftoverPower < UserDefUtils.userThresholdPower{
-            let center = UNUserNotificationCenter.current()
     
             let content = UNMutableNotificationContent()
             content.title = "Exceeded Power Limit! 😮"
-            content.body = "Ibukunoluw, you have used up too much power, consider buying more immediately "
+            content.body = "Ibukunoluwa, you have used up too much power, consider buying more immediately "
             content.categoryIdentifier = "alarm"
             content.userInfo = ["customData": "fizzbuzz"]
             content.sound = UNNotificationSound.defaultCritical
     
-            var dateComponents = DateComponents()
-            dateComponents.hour = 10
-            dateComponents.minute = 30
+            
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
     
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             center.add(request)
         }
+        
+        
+        center.add(generateDailyNotification())
                 
     }
 
+    fileprivate func generateDailyNotification() -> UNNotificationRequest{
+        let content = UNMutableNotificationContent()
+        content.title = "Today's Power Consumption 💡"
+        content.body = "Ibukunoluwa, you have used up \(String(format: "%.2f", UserDefUtils.userConsumptionPower)) kwH today"
+        content.categoryIdentifier = "alarm"
+        content.userInfo = ["customData": "fizzbuzz"]
+        content.sound = UNNotificationSound.defaultCritical
+        
+        var dateComponents = DateComponents()
+        dateComponents.hour = 19
+        dateComponents.minute = 04
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: dateComponents, repeats: true)
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        return request
+    }
 
 }
 

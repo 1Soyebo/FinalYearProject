@@ -9,6 +9,15 @@ import Foundation
 import RealmSwift
 import Charts
 
+extension Date{
+    func toShortString() -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        return dateFormatter.string(from: self)
+    }
+}
+
+
 extension Sequence where Iterator.Element: Hashable {
     func unique() -> [Iterator.Element] {
         var seen: Set<Iterator.Element> = []

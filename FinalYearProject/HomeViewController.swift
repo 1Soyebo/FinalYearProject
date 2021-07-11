@@ -65,7 +65,8 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.async { [self] in
-            lblAvailable.text = "\(UserDefUtils.userPurchasedPower - overallConsumption) kwH"
+            let o_consum2dp = String(format:"%.2f", UserDefUtils.userPurchasedPower - overallConsumption)
+            lblAvailable.text = "\(o_consum2dp) kwH"
         }
     }
     
@@ -98,6 +99,16 @@ class HomeViewController: UIViewController {
         
     }
     
+    fileprivate func calculateTotalPowerPerDay(arraySmallPower: [AdaFruitResult]){
+        var totalPerDay:Double = 0
+        for m in arraySmallPower{
+            totalPerDay += m.power
+        }
+        
+        let o_consum2dp = String(format:"%.2f", totalPerDay)
+        lblTodayConsumption.text = "\(o_consum2dp) kwH"
+        
+    }
     
 
     fileprivate func getChartData(){
@@ -134,14 +145,16 @@ class HomeViewController: UIViewController {
                 let range = time_stamp.index(time_stamp.startIndex, offsetBy: 8)..<time_stamp.index(time_stamp.startIndex, offsetBy: 15)
                 let k = time_stamp.replacingCharacters(in: range, with: "")
                 
-                overallConsumption += (Double(power) ?? 0)
+                overallConsumption += (Double(power) ?? 0) * time_diff
                 let iOSTimeStamp = timeStampFormatter.date(from: k) ?? Date()
             
                 
                 let single_power = AdaFruitResult(current: Double(current) ?? 0, date_stamp: date_stamp ?? "", id: id ?? 0, power: (Double(power) ?? 0) * time_diff, time_stamp: time_stamp, voltage: Double(voltage) ?? 0, iOSDate: dateStampFormatter.date(from: date_stamp ?? "") ?? Date(), iOSTime: iOSTimeStamp)
                 
                 array_Dates.append(single_power.iOSDate)
-                array_power_results.insert(single_power, at: 0)
+//                array_power_results.insert(single_power, at: 0)
+                array_power_results.append(single_power)
+
             }
             
             UserDefUtils.userConsumptionPower = overallConsumption
@@ -150,6 +163,7 @@ class HomeViewController: UIViewController {
 //            checkIfLastDataFromAPICallIsTheSameAsRealm()
             sortArrayPowerResults()
             historyCollectionView.reloadData()
+
 
 //            convertToChartDataEntry(array_adafruit: array_power_results)
         })
@@ -189,7 +203,10 @@ class HomeViewController: UIViewController {
             
             array_of_array_powerResults.append(oneArray)
         }
-        
+        if let firstArray = array_of_array_powerResults.first{
+            calculateTotalPowerPerDay(arraySmallPower: firstArray)
+        }
+
         print(array_of_array_powerResults.count)
 //         print(array_of_array_powerResults[0])
 //        convertToChartDataEntry(array_adafruit: array_of_array_powerResults[2])
@@ -239,9 +256,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let historyCVCell = historyCollectionView.dequeueReusableCell(withReuseIdentifier: HistoryCVC.identifier, for: indexPath) as! HistoryCVC
         historyCVCell.labelDate.text = "\(array_Dates[indexPath.item].toShortString())"
-//        DispatchQueue.main.async {
-//            
-//        }
         historyCVCell.convertToChartDataEntry(array_adafruit: self.array_of_array_powerResults[indexPath.item])
         return historyCVCell
     }
@@ -250,15 +264,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         return .init(width: historyCollectionView.frame.width, height: historyCollectionView.frame.height)
     }
     
-    
-}
-
-
-extension Date{
-    
-    func toShortString() -> String{
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        return dateFormatter.string(from: self)
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        var hmm = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+        calculateTotalPowerPerDay(arraySmallPower: array_of_array_powerResults[hmm])
     }
+    
 }
+
+
