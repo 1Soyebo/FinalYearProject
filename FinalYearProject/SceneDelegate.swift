@@ -10,6 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let hmmcenter = UNUserNotificationCenter.current()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -17,9 +18,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
-        let hmmcenter = UNUserNotificationCenter.current()
         UIApplication.shared.applicationIconBadgeNumber =  0
         hmmcenter.removeAllDeliveredNotifications()
+//        hmmcenter.removeAllPendingNotificationRequests()
         
 
     }
@@ -42,6 +43,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+        UIApplication.shared.applicationIconBadgeNumber =  0
+
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
     }
@@ -50,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-        let center = UNUserNotificationCenter.current()
+//        let center = UNUserNotificationCenter.current()
 
         let leftoverPower = UserDefUtils.userPurchasedPower - UserDefUtils.userConsumptionPower 
         if leftoverPower < UserDefUtils.userThresholdPower{
@@ -66,14 +69,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
     
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-            center.add(request)
             UIApplication.shared.applicationIconBadgeNumber += 1
-
+            hmmcenter.add(request)
         }
         
         
-        center.add(generateDailyNotification())
-        UIApplication.shared.applicationIconBadgeNumber += 1
+        hmmcenter.add(generateDailyNotification())
+//        UIApplication.shared.applicationIconBadgeNumber += 1
                 
     }
 
@@ -86,8 +88,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         content.sound = UNNotificationSound.defaultCritical
         
         var dateComponents = DateComponents()
-        dateComponents.hour = 19
-        dateComponents.minute = 04
+        dateComponents.hour = 02
+        dateComponents.minute = 18
         let trigger = UNCalendarNotificationTrigger(
             dateMatching: dateComponents, repeats: true)
 

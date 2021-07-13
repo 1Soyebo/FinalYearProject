@@ -12,7 +12,7 @@ import Charts
 extension Date{
     func toShortString() -> String{
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .full
         return dateFormatter.string(from: self)
     }
 }

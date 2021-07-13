@@ -30,6 +30,7 @@ struct SettingsSwiftUI: View {
         
         .onDisappear(perform: {
             UserDefUtils.userPurchasedPower = Double(purchasedPower) ?? 0
+            UserDefUtils.userThresholdPower = Double(thresholdPower) ?? 0
         })
         
         
