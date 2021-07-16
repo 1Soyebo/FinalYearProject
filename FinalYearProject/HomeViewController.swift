@@ -8,6 +8,8 @@
 import UIKit
 import Charts
 import Alamofire
+import PKHUD
+import SkeletonView
 //import RealmSwift
 import DateToolsSwift
 
@@ -23,6 +25,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var lblAvailable: UILabel!
     @IBOutlet weak var lblCurrentPower: UILabel!
     @IBOutlet weak var lblTodayConsumption: UILabel!
+    @IBOutlet weak var daysPageControl: UIPageControl!
+    
+    
+    
     
     var array_Dates = [Date]()
     var array_of_array_powerResults = [[AdaFruitResult]]()
@@ -36,7 +42,7 @@ class HomeViewController: UIViewController {
     
     var todayPower:Double = 0{
         didSet{
-            lblTodayConsumption.text = "\(todayPower) kwH"
+            lblCurrentPower.text = "\(todayPower) kwH"
         }
     }
     
@@ -52,7 +58,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Home"
+        self.title = "Energy Monitor"
         navigationController?.navigationBar.prefersLargeTitles = true
         registerForNotifications()
         setLabels()
@@ -112,7 +118,7 @@ class HomeViewController: UIViewController {
     
 
     fileprivate func getChartData(){
-    
+        HUD.show(.progress)
         AF.request("https://adafruitapi.herokuapp.com/api/get/", method: .get).responseJSON(completionHandler: { [self]
             response in
             let api_power_results = response.value as? NSArray
@@ -120,7 +126,7 @@ class HomeViewController: UIViewController {
             array_power_results = []
             overallConsumption = 0
 //            var oldtime:Date = 12.seconds.earlier
-            let time_diff:Double = 3/3600000
+            let time_diff:Double = 5/3600000
             for power_result in _array_power_reults{
                 
                 let json_power_result = power_result as? [String:Any]
@@ -162,7 +168,9 @@ class HomeViewController: UIViewController {
             sortArrayPowerResults()
 //            checkIfLastDataFromAPICallIsTheSameAsRealm()
             sortArrayPowerResults()
+            HUD.hide()
             historyCollectionView.reloadData()
+            daysPageControl.numberOfPages = array_Dates.count
 
 
 //            convertToChartDataEntry(array_adafruit: array_power_results)
@@ -265,10 +273,16 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        var hmm = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-        calculateTotalPowerPerDay(arraySmallPower: array_of_array_powerResults[hmm])
+        let currentPageNumber = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
+        calculateTotalPowerPerDay(arraySmallPower: array_of_array_powerResults[currentPageNumber])
+        daysPageControl.currentPage = currentPageNumber
     }
     
 }
 
 
+extension HomeViewController: SkeletonCollectionViewDataSource{
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return HistoryCVC.identifier
+    }
+}

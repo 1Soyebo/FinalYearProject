@@ -165,19 +165,26 @@
 			<key>orderHint</key>
 			<integer>23</integer>
 		</dict>
-		<key>SwiftValidator.xcscheme</key>
+		<key>SkeletonView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>24</integer>
 		</dict>
-		<key>SwiftyJSON.xcscheme</key>
+		<key>SwiftValidator.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>25</integer>
+		</dict>
+		<key>SwiftyJSON.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>26</integer>
 		</dict>
 		<key>nanopb.xcscheme</key>
 		<dict>

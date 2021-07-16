@@ -18,6 +18,7 @@ target 'FinalYearProject' do
   pod 'SwiftyJSON', '~> 4.0'
   pod 'DateToolsSwift'
   pod 'RealmSwift', '=10.1.4'
+  pod 'SkeletonView'
 
 
 end

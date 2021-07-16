@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="1023"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Wjo-uI-vHg">
-                                        <rect key="frame" x="32" y="499" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="542.5" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Power Consumption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuN-uD-XWX">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -38,7 +38,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Pd9-GX-sQW">
-                                        <rect key="frame" x="32" y="558" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="601.5" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Consumption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHz-jr-X6A">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -78,28 +78,35 @@
                                             <constraint firstAttribute="height" constant="400" id="TIn-tP-wYr"/>
                                         </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8Am-v4-LhC">
-                                            <size key="itemSize" width="311" height="449"/>
+                                            <size key="itemSize" width="307" height="392"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="historyCollectionViewCell" id="2dP-cY-lzH">
-                                                <rect key="frame" x="0.0" y="0.0" width="311" height="449"/>
+                                                <rect key="frame" x="2" y="0.0" width="307" height="392"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="4fC-bP-8oL">
-                                                    <rect key="frame" x="0.0" y="0.0" width="311" height="449"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="307" height="392"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </collectionViewCellContentView>
-                                                <size key="customSize" width="311" height="449"/>
+                                                <size key="customSize" width="307" height="392"/>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="FRe-Kf-XvG">
+                                        <rect key="frame" x="64" y="499" width="247" height="27.5"/>
+                                        <color key="currentPageIndicatorTintColor" systemColor="systemYellowColor"/>
+                                    </pageControl>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Pd9-GX-sQW" firstAttribute="top" secondItem="Wjo-uI-vHg" secondAttribute="bottom" constant="16" id="0Hy-8N-Uk7"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="bottom" secondItem="Pd9-GX-sQW" secondAttribute="bottom" constant="20" id="0qT-N8-yB5"/>
+                                    <constraint firstItem="TuN-uD-XWX" firstAttribute="top" secondItem="FRe-Kf-XvG" secondAttribute="bottom" constant="16" id="69n-s8-Z3S"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="Wjo-uI-vHg" secondAttribute="trailing" constant="32" id="8QP-Ct-jXt"/>
+                                    <constraint firstItem="FRe-Kf-XvG" firstAttribute="top" secondItem="rvy-Tu-Bdh" secondAttribute="bottom" constant="16" id="F1e-E7-euK"/>
+                                    <constraint firstItem="FRe-Kf-XvG" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="64" id="JXf-9h-7E1"/>
                                     <constraint firstItem="rlq-QD-eBn" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="NGL-Io-1ft"/>
                                     <constraint firstItem="rlq-QD-eBn" firstAttribute="top" secondItem="PbL-Ss-asp" secondAttribute="top" constant="24" id="P07-kg-Kgk"/>
                                     <constraint firstItem="rvy-Tu-Bdh" firstAttribute="top" secondItem="rlq-QD-eBn" secondAttribute="bottom" constant="16" id="RD3-7r-4wr"/>
@@ -108,8 +115,8 @@
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="Pd9-GX-sQW" secondAttribute="trailing" constant="32" id="UXd-aJ-vaZ"/>
                                     <constraint firstItem="Wjo-uI-vHg" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="X1S-0p-3DS"/>
                                     <constraint firstItem="rvy-Tu-Bdh" firstAttribute="leading" secondItem="p55-Fc-x9a" secondAttribute="leading" constant="32" id="aGd-rD-gQw"/>
-                                    <constraint firstItem="Wjo-uI-vHg" firstAttribute="top" secondItem="rvy-Tu-Bdh" secondAttribute="bottom" constant="16" id="crL-hX-7g3"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="rlq-QD-eBn" secondAttribute="trailing" constant="32" id="ndz-Q4-l09"/>
+                                    <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="FRe-Kf-XvG" secondAttribute="trailing" constant="64" id="vL1-Cu-nkz"/>
                                     <constraint firstItem="rlq-QD-eBn" firstAttribute="centerX" secondItem="6JD-XS-SRA" secondAttribute="centerX" id="ybX-Po-SGS"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="PbL-Ss-asp"/>
@@ -120,13 +127,14 @@
                         <color key="backgroundColor" red="0.89411764709999997" green="0.91766303780000003" blue="0.93793624639999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6JD-XS-SRA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="U23-sP-gr8"/>
-                            <constraint firstItem="6JD-XS-SRA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="cex-iU-Vz5"/>
+                            <constraint firstItem="6JD-XS-SRA" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="44" id="cex-iU-Vz5"/>
                             <constraint firstAttribute="trailing" secondItem="6JD-XS-SRA" secondAttribute="trailing" id="kyn-CY-E4D"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6JD-XS-SRA" secondAttribute="bottom" id="roX-Dx-sdc"/>
+                            <constraint firstAttribute="bottom" secondItem="6JD-XS-SRA" secondAttribute="bottom" id="roX-Dx-sdc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bY6-jn-gqp">
                         <barButtonItem key="leftBarButtonItem" image="line.horizontal.3" catalog="system" id="mFS-UU-VPB">
+                            <color key="tintColor" systemColor="systemYellowColor"/>
                             <connections>
                                 <segue destination="y9c-Ww-mZ6" kind="presentation" id="tet-3l-qFi"/>
                             </connections>
@@ -134,6 +142,7 @@
                     </navigationItem>
                     <size key="freeformSize" width="375" height="1067"/>
                     <connections>
+                        <outlet property="daysPageControl" destination="FRe-Kf-XvG" id="bAg-sn-61d"/>
                         <outlet property="historyCollectionView" destination="rvy-Tu-Bdh" id="Iw2-aW-VbI"/>
                         <outlet property="lblAvailable" destination="WHq-iV-gaf" id="v3A-Kx-H0P"/>
                         <outlet property="lblCurrentPower" destination="XEy-Ox-aLP" id="92y-vJ-kyu"/>
@@ -255,6 +264,9 @@
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -52,6 +52,9 @@
                 <constraint firstAttribute="trailing" secondItem="fdj-fR-fpz" secondAttribute="trailing" id="yYY-eb-gao"/>
             </constraints>
             <size key="customSize" width="210" height="279"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="historyLineChart" destination="Jfp-qX-Wr7" id="6Yr-kd-3bG"/>
                 <outlet property="labelDate" destination="vSj-dh-Npu" id="ctt-0y-jHf"/>
