@@ -9,7 +9,6 @@ import UIKit
 import Charts
 import Alamofire
 import PKHUD
-import SkeletonView
 //import RealmSwift
 import DateToolsSwift
 
@@ -118,7 +117,7 @@ class HomeViewController: UIViewController {
     
 
     fileprivate func getChartData(){
-        HUD.show(.progress)
+//        HUD.show(.progress)
         AF.request("https://adafruitapi.herokuapp.com/api/get/", method: .get).responseJSON(completionHandler: { [self]
             response in
             let api_power_results = response.value as? NSArray
@@ -167,10 +166,13 @@ class HomeViewController: UIViewController {
             array_Dates = array_Dates.unique()
             sortArrayPowerResults()
 //            checkIfLastDataFromAPICallIsTheSameAsRealm()
-            sortArrayPowerResults()
-            HUD.hide()
+//            HUD.hide()
             historyCollectionView.reloadData()
+            let hmm = IndexPath(item: array_Dates.count - 1, section: 0)
+            historyCollectionView.scrollToItem(at: hmm, at: .right, animated: true)
             daysPageControl.numberOfPages = array_Dates.count
+            daysPageControl.currentPage = array_Dates.count - 1
+
 
 
 //            convertToChartDataEntry(array_adafruit: array_power_results)
@@ -258,11 +260,23 @@ extension HomeViewController: UNUserNotificationCenterDelegate{
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return array_Dates.count
+        
+        if array_power_results.isEmpty{
+            return 1
+        }else{
+            return array_Dates.count
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let historyCVCell = historyCollectionView.dequeueReusableCell(withReuseIdentifier: HistoryCVC.identifier, for: indexPath) as! HistoryCVC
+        
+        if array_power_results.isEmpty{
+            return historyCVCell
+        }
+        
+        
         historyCVCell.labelDate.text = "\(array_Dates[indexPath.item].toShortString())"
         historyCVCell.convertToChartDataEntry(array_adafruit: self.array_of_array_powerResults[indexPath.item])
         return historyCVCell
@@ -278,11 +292,4 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         daysPageControl.currentPage = currentPageNumber
     }
     
-}
-
-
-extension HomeViewController: SkeletonCollectionViewDataSource{
-    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
-        return HistoryCVC.identifier
-    }
 }

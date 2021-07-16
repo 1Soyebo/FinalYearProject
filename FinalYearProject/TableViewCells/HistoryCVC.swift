@@ -7,7 +7,7 @@
 
 import UIKit
 import Charts
-
+import SkeletonView
 
 class HistoryCVC: UICollectionViewCell {
     
@@ -25,8 +25,7 @@ class HistoryCVC: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureChartView()
-        
-        // Initialization code
+
     }
     
     
