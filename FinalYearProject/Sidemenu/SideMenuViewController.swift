@@ -15,7 +15,8 @@ struct SideMenuData {
 
 class SideMenuViewController: UIViewController {
     
-    let array_sideMenu_data:[SideMenuData] = [.init(cellName: "Settings", cellImage: "sidemenu card"), .init(cellName: "Power Purchases", cellImage: "sidemenu deliveries")]
+    let array_sideMenu_data:[SideMenuData] = [.init(cellName: "Settings", cellImage: "sidemenu card")]
+//    let array_sideMenu_data:[SideMenuData] = [.init(cellName: "Settings", cellImage: "sidemenu card"), .init(cellName: "Power Purchases", cellImage: "sidemenu deliveries")]
     
     @IBOutlet weak var tblSideMenu: UITableView!
     

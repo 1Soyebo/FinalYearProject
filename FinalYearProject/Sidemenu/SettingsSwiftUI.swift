@@ -11,6 +11,10 @@ struct SettingsSwiftUI: View {
     
     @State var purchasedPower = "\(UserDefUtils.userPurchasedPower)"
     @State private var thresholdPower = "\(UserDefUtils.userThresholdPower)"
+
+    @State private var isAutomaticRefresh = UserDefUtils.isAutomaticRefresh
+    
+    @State private var dailyTimeNotification = UserDefUtils.dailyNotificationTime
     
     var body: some View {
       
@@ -25,12 +29,22 @@ struct SettingsSwiftUI: View {
                         .keyboardType(.numberPad)
                     
                 }
+                
+                Section(header: Text("Do you want turn on automatic refresh?")){
+                    Toggle("Automatic Refresh", isOn: $isAutomaticRefresh)
+                }
+                
+                Section(header: Text("Daily Notifications")){
+                    DatePicker("Select Preferred Time", selection: $dailyTimeNotification, displayedComponents: .hourAndMinute)
+                }
             }        .navigationTitle("Settings")
 
         
         .onDisappear(perform: {
             UserDefUtils.userPurchasedPower = Double(purchasedPower) ?? 0
             UserDefUtils.userThresholdPower = Double(thresholdPower) ?? 0
+            UserDefUtils.isAutomaticRefresh = isAutomaticRefresh
+            UserDefUtils.dailyNotificationTime = dailyTimeNotification
         })
         
         

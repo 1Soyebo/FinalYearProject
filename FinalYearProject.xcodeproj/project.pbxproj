@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2B2C89152680CA2500E2D1D1 /* RealmPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2C89142680CA2500E2D1D1 /* RealmPersistence.swift */; };
+		2B318E2026A34DD10005BE75 /* UserDefUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B318E1F26A34DD00005BE75 /* UserDefUtils.swift */; };
 		2B471E06267384F600C2E679 /* FYMenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B471E04267384F600C2E679 /* FYMenuTableViewCell.swift */; };
 		2B471E07267384F600C2E679 /* FYMenuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B471E05267384F600C2E679 /* FYMenuTableViewCell.xib */; };
 		2B471E0B267385A900C2E679 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B471E0A267385A900C2E679 /* SideMenuViewController.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		2B2C89142680CA2500E2D1D1 /* RealmPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmPersistence.swift; sourceTree = "<group>"; };
+		2B318E1F26A34DD00005BE75 /* UserDefUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefUtils.swift; sourceTree = "<group>"; };
 		2B471E04267384F600C2E679 /* FYMenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FYMenuTableViewCell.swift; sourceTree = "<group>"; };
 		2B471E05267384F600C2E679 /* FYMenuTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FYMenuTableViewCell.xib; sourceTree = "<group>"; };
 		2B471E0A267385A900C2E679 /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +69,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B318E1E26A34DC00005BE75 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2B318E1F26A34DD00005BE75 /* UserDefUtils.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		2B471DFD2673843900C2E679 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +129,7 @@
 		2B490E01266A464D00149D0A /* FinalYearProject */ = {
 			isa = PBXGroup;
 			children = (
+				2B318E1E26A34DC00005BE75 /* Helpers */,
 				2BA2F5FE267A074C00AD609D /* FinalYearProject.entitlements */,
 				2B471E0E267388D000C2E679 /* Api x Connectivity */,
 				2B471E092673856A00C2E679 /* Sidemenu */,
@@ -282,6 +293,7 @@
 				2B471E0B267385A900C2E679 /* SideMenuViewController.swift in Sources */,
 				2B471E06267384F600C2E679 /* FYMenuTableViewCell.swift in Sources */,
 				2B471E142673890D00C2E679 /* Connectivity.swift in Sources */,
+				2B318E2026A34DD10005BE75 /* UserDefUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

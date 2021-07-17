@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="1023"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Wjo-uI-vHg">
-                                        <rect key="frame" x="32" y="542.5" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="581" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Power Consumption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuN-uD-XWX">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -38,7 +38,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Pd9-GX-sQW">
-                                        <rect key="frame" x="32" y="601.5" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="640" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Consumption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHz-jr-X6A">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -55,7 +55,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rlq-QD-eBn">
-                                        <rect key="frame" x="32" y="24" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="62.5" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Available KiloWatt-Hour" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfc-No-6s0">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -72,7 +72,7 @@
                                         </subviews>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rvy-Tu-Bdh">
-                                        <rect key="frame" x="32" y="83" width="311" height="400"/>
+                                        <rect key="frame" x="32" y="121.5" width="311" height="400"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="400" id="TIn-tP-wYr"/>
@@ -96,19 +96,28 @@
                                         </cells>
                                     </collectionView>
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="FRe-Kf-XvG">
-                                        <rect key="frame" x="64" y="499" width="247" height="27.5"/>
+                                        <rect key="frame" x="64" y="537.5" width="247" height="27.5"/>
                                         <color key="currentPageIndicatorTintColor" systemColor="systemYellowColor"/>
                                     </pageControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhB-UQ-6xk">
+                                        <rect key="frame" x="16" y="32" width="327" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Pd9-GX-sQW" firstAttribute="top" secondItem="Wjo-uI-vHg" secondAttribute="bottom" constant="16" id="0Hy-8N-Uk7"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="bottom" secondItem="Pd9-GX-sQW" secondAttribute="bottom" constant="20" id="0qT-N8-yB5"/>
                                     <constraint firstItem="TuN-uD-XWX" firstAttribute="top" secondItem="FRe-Kf-XvG" secondAttribute="bottom" constant="16" id="69n-s8-Z3S"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="Wjo-uI-vHg" secondAttribute="trailing" constant="32" id="8QP-Ct-jXt"/>
+                                    <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="jhB-UQ-6xk" secondAttribute="trailing" constant="32" id="C0e-gi-KvU"/>
+                                    <constraint firstItem="jhB-UQ-6xk" firstAttribute="top" secondItem="PbL-Ss-asp" secondAttribute="top" constant="32" id="Dlx-J7-NfO"/>
                                     <constraint firstItem="FRe-Kf-XvG" firstAttribute="top" secondItem="rvy-Tu-Bdh" secondAttribute="bottom" constant="16" id="F1e-E7-euK"/>
+                                    <constraint firstItem="rlq-QD-eBn" firstAttribute="top" secondItem="jhB-UQ-6xk" secondAttribute="bottom" constant="16" id="JTC-fL-K0x"/>
                                     <constraint firstItem="FRe-Kf-XvG" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="64" id="JXf-9h-7E1"/>
                                     <constraint firstItem="rlq-QD-eBn" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="NGL-Io-1ft"/>
-                                    <constraint firstItem="rlq-QD-eBn" firstAttribute="top" secondItem="PbL-Ss-asp" secondAttribute="top" constant="24" id="P07-kg-Kgk"/>
+                                    <constraint firstItem="jhB-UQ-6xk" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="16" id="PCT-oi-Ko7"/>
                                     <constraint firstItem="rvy-Tu-Bdh" firstAttribute="top" secondItem="rlq-QD-eBn" secondAttribute="bottom" constant="16" id="RD3-7r-4wr"/>
                                     <constraint firstItem="Pd9-GX-sQW" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="Rxi-dO-nIJ"/>
                                     <constraint firstItem="p55-Fc-x9a" firstAttribute="trailing" secondItem="rvy-Tu-Bdh" secondAttribute="trailing" constant="32" id="T6n-TE-xzT"/>
@@ -144,6 +153,7 @@
                     <connections>
                         <outlet property="daysPageControl" destination="FRe-Kf-XvG" id="bAg-sn-61d"/>
                         <outlet property="historyCollectionView" destination="rvy-Tu-Bdh" id="Iw2-aW-VbI"/>
+                        <outlet property="lblAutomaticRefresh" destination="jhB-UQ-6xk" id="Hhh-2W-APL"/>
                         <outlet property="lblAvailable" destination="WHq-iV-gaf" id="v3A-Kx-H0P"/>
                         <outlet property="lblCurrentPower" destination="XEy-Ox-aLP" id="92y-vJ-kyu"/>
                         <outlet property="lblTodayConsumption" destination="8Ct-Yh-cEK" id="G1K-aL-tmb"/>

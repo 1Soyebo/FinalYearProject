@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var lblCurrentPower: UILabel!
     @IBOutlet weak var lblTodayConsumption: UILabel!
     @IBOutlet weak var daysPageControl: UIPageControl!
+    @IBOutlet weak var lblAutomaticRefresh: UILabel!
     
     
     
@@ -41,7 +42,8 @@ class HomeViewController: UIViewController {
     
     var todayPower:Double = 0{
         didSet{
-            lblCurrentPower.text = "\(todayPower) kwH"
+            let today_consum4dp = String(format:"%.4f", todayPower)
+            lblCurrentPower.text = "\(today_consum4dp) kwH"
         }
     }
     
@@ -61,9 +63,11 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         registerForNotifications()
         setLabels()
-        self.getChartData()
+        callApiBasedOnAutomaticRefresh()
+//        self.getChartData()
         configureColledtionView()
-//        repeateGetREquest()
+        
+//        repeateGetRequest()
     }
     
     
@@ -72,10 +76,14 @@ class HomeViewController: UIViewController {
         DispatchQueue.main.async { [self] in
             let o_consum2dp = String(format:"%.2f", UserDefUtils.userPurchasedPower - overallConsumption)
             lblAvailable.text = "\(o_consum2dp) kwH"
+            lblAutomaticRefresh.text = "Automatic Refresh is turned \(UserDefUtils.isAutomaticRefresh ? "ON":"OFF") in Settings"
         }
     }
     
 
+    func callApiBasedOnAutomaticRefresh(){
+        UserDefUtils.isAutomaticRefresh ? repeateGetREquest():getChartData()
+    }
     
     fileprivate func setLabels(){
         lblAvailable.text = "0 kwH"
@@ -99,7 +107,6 @@ class HomeViewController: UIViewController {
         if let flowlayout = historyCollectionView.collectionViewLayout as? UICollectionViewFlowLayout{
             flowlayout.scrollDirection = .horizontal
             flowlayout.minimumLineSpacing = 0
-            
         }
         
     }
@@ -115,6 +122,11 @@ class HomeViewController: UIViewController {
         
     }
     
+    fileprivate func updateViewControllerValuesAccordingToDay(currentPageNumber:Int){
+        calculateTotalPowerPerDay(arraySmallPower: array_of_array_powerResults[currentPageNumber])
+        daysPageControl.currentPage = currentPageNumber
+    }
+    
 
     fileprivate func getChartData(){
 //        HUD.show(.progress)
@@ -123,9 +135,12 @@ class HomeViewController: UIViewController {
             let api_power_results = response.value as? NSArray
             guard let _array_power_reults = api_power_results else { return  }
             array_power_results = []
+            array_of_array_powerResults = []
             overallConsumption = 0
+            todayPower = 0
+            
 //            var oldtime:Date = 12.seconds.earlier
-            let time_diff:Double = 5/3600000
+            let time_diff:Double = (5/3600) * (1/1000)
             for power_result in _array_power_reults{
                 
                 let json_power_result = power_result as? [String:Any]
@@ -162,7 +177,7 @@ class HomeViewController: UIViewController {
 
             }
             
-            UserDefUtils.userConsumptionPower = overallConsumption
+            UserDefUtils.userOverallConsumptionPower = overallConsumption
             array_Dates = array_Dates.unique()
             sortArrayPowerResults()
 //            checkIfLastDataFromAPICallIsTheSameAsRealm()
@@ -171,9 +186,7 @@ class HomeViewController: UIViewController {
             let hmm = IndexPath(item: array_Dates.count - 1, section: 0)
             historyCollectionView.scrollToItem(at: hmm, at: .right, animated: true)
             daysPageControl.numberOfPages = array_Dates.count
-            daysPageControl.currentPage = array_Dates.count - 1
-
-
+            updateViewControllerValuesAccordingToDay(currentPageNumber: array_Dates.count - 1)
 
 //            convertToChartDataEntry(array_adafruit: array_power_results)
         })
@@ -276,8 +289,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             return historyCVCell
         }
         
-        
-        historyCVCell.labelDate.text = "\(array_Dates[indexPath.item].toShortString())"
+        let singleIndexDate = array_Dates[indexPath.item]
+        let singleIndexDateString = singleIndexDate.toShortString()
+        historyCVCell.labelDate.text = "\(singleIndexDate.isToday ?  ("Today: " + singleIndexDateString):singleIndexDateString)"
         historyCVCell.convertToChartDataEntry(array_adafruit: self.array_of_array_powerResults[indexPath.item])
         return historyCVCell
     }
@@ -288,8 +302,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentPageNumber = Int(scrollView.contentOffset.x) / Int(scrollView.frame.width)
-        calculateTotalPowerPerDay(arraySmallPower: array_of_array_powerResults[currentPageNumber])
-        daysPageControl.currentPage = currentPageNumber
+        updateViewControllerValuesAccordingToDay(currentPageNumber: currentPageNumber)
+        
     }
     
 }
