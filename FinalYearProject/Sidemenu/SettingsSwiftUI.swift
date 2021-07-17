@@ -21,12 +21,12 @@ struct SettingsSwiftUI: View {
             Form{
                 Section(header: Text("Power Purchased in kwH")){
                     TextField("How much power did you purchase", text: $purchasedPower)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                 }
                 
                 Section(header:Text("Threshold Power in kwH")){
                     TextField("At what threshold  power do you want tot be notified to purchase power?", text: $thresholdPower)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                     
                 }
                 
@@ -37,6 +37,8 @@ struct SettingsSwiftUI: View {
                 Section(header: Text("Daily Notifications")){
                     DatePicker("Select Preferred Time", selection: $dailyTimeNotification, displayedComponents: .hourAndMinute)
                 }
+                
+                
             }        .navigationTitle("Settings")
 
         

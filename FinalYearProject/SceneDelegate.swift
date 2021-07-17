@@ -11,7 +11,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     let hmmcenter = UNUserNotificationCenter.current()
-    let dailyNotificationIdentifier  = "dailyNotificaton"
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -20,8 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         UIApplication.shared.applicationIconBadgeNumber =  0
-        hmmcenter.removeAllDeliveredNotifications()
-        hmmcenter.removeAllPendingNotificationRequests()
         
         
 
@@ -81,25 +78,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
     }
 
-    fileprivate func generateDailyNotification() -> UNNotificationRequest{
-        let content = UNMutableNotificationContent()
-        content.title = "Today's Power Consumption 💡"
-        content.body = "Ibukunoluwa, you have used up \(String(format: "%.2f", UserDefUtils.userOverallConsumptionPower)) kwH today"
-        content.categoryIdentifier = "alarm"
-        content.userInfo = ["customData": "fizzbuzz"]
-        content.sound = .defaultCritical
-        
-        
-        var dateComponents = DateComponents()
-        dateComponents.hour = 02
-        dateComponents.minute = 18
-        let trigger = UNCalendarNotificationTrigger(
-            dateMatching: dateComponents, repeats: true)
-
-        let request = UNNotificationRequest(identifier: dailyNotificationIdentifier, content: content, trigger: trigger)
-        
-        return request
-    }
+    
 
 }
 
