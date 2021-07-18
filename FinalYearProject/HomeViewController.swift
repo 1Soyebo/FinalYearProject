@@ -28,7 +28,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var lblAutomaticRefresh: UILabel!
     
     
-    
+    var timerCallApi:Timer?
     
     var array_Dates = [Date]()
     var array_of_array_powerResults = [[AdaFruitResult]]()
@@ -42,6 +42,7 @@ class HomeViewController: UIViewController {
     
     var todayPower:Double = 0{
         didSet{
+            UserDefUtils.userTodayConsumptionPower = todayPower
             let today_consum4dp = String(format:"%.4f", todayPower)
             lblCurrentPower.text = "\(today_consum4dp) kwH"
         }
@@ -63,11 +64,10 @@ class HomeViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         registerForNotifications()
         setLabels()
+        configureTimer()
         callApiBasedOnAutomaticRefresh()
-//        self.getChartData()
         configureColledtionView()
         
-//        repeateGetRequest()
     }
     
     
@@ -76,13 +76,23 @@ class HomeViewController: UIViewController {
         DispatchQueue.main.async { [self] in
             let o_consum2dp = String(format:"%.2f", UserDefUtils.userPurchasedPower - overallConsumption)
             lblAvailable.text = "\(o_consum2dp) kwH"
-            lblAutomaticRefresh.text = "Automatic Refresh is turned \(UserDefUtils.isAutomaticRefresh ? "ON":"OFF") in Settings"
+            lblAutomaticRefresh.text = "Automatic Refresh is turned \(UserDefUtils.isAutomaticRefresh ? "ON":"OFF") in Settings".uppercased()
+            callApiBasedOnAutomaticRefresh()
         }
     }
     
 
+    fileprivate func configureTimer(){
+        timerCallApi = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(getChartData), userInfo: nil, repeats: true)
+    }
+    
     func callApiBasedOnAutomaticRefresh(){
-        UserDefUtils.isAutomaticRefresh ? repeateGetREquest():getChartData()
+        if UserDefUtils.isAutomaticRefresh{
+            timerCallApi?.fire()
+        }else{
+            timerCallApi?.invalidate()
+            getChartData()
+        }
     }
     
     fileprivate func setLabels(){
@@ -90,13 +100,6 @@ class HomeViewController: UIViewController {
         lblCurrentPower.text = "0 kwH"
         lblTodayConsumption.text = "0 kwH"
     }
-    
-    fileprivate func repeateGetREquest(){
-        Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { timer in
-            self.getChartData()
-        }
-    }
-    
     
     
     fileprivate func configureColledtionView(){
@@ -109,7 +112,13 @@ class HomeViewController: UIViewController {
             flowlayout.minimumLineSpacing = 0
         }
         
+        let collectionViewRefreshControl = UIRefreshControl()
+        collectionViewRefreshControl.tintColor = .yellow
+        collectionViewRefreshControl.attributedTitle = NSAttributedString(string: "Fetching Energy Data...")
+        historyCollectionView.refreshControl = collectionViewRefreshControl
+        collectionViewRefreshControl.addTarget(self, action: #selector(getChartData), for: .valueChanged)
     }
+    
     
     fileprivate func calculateTotalPowerPerDay(arraySmallPower: [AdaFruitResult]){
         var totalPerDay:Double = 0
@@ -128,7 +137,7 @@ class HomeViewController: UIViewController {
     }
     
 
-    fileprivate func getChartData(){
+    @objc fileprivate func getChartData(){
 //        HUD.show(.progress)
         AF.request("https://adafruitapi.herokuapp.com/api/get/", method: .get).responseJSON(completionHandler: { [self]
             response in

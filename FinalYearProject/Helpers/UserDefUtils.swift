@@ -67,10 +67,14 @@ class UserDefUtils {
             return UserDefaults.standard.object(forKey: userDailyNotificationTime) as? Date ?? Date()
         }
         set{
-            hmmcenter.add(updateDailyNotification())
-            UIApplication.shared.applicationIconBadgeNumber += 1
             UserDefaults.standard.set(newValue, forKey: userDailyNotificationTime)
             UserDefaults.standard.synchronize()
+//            hmmcenter.removeAllPendingNotificationRequests()
+            hmmcenter.add(updateDailyNotification()){
+                (error) in
+                print(error?.localizedDescription)
+            }
+//            UIApplication.shared.applicationIconBadgeNumber += 1
         }
     }
     
@@ -95,7 +99,9 @@ class UserDefUtils {
         
         var dateComponents = DateComponents()
         dateComponents.hour = dailyNotificationTime.component(.hour)
+        print(dailyNotificationTime.component(.hour))
         dateComponents.minute = dailyNotificationTime.component(.minute)
+        print(dailyNotificationTime.component(.minute))
         let trigger = UNCalendarNotificationTrigger(
             dateMatching: dateComponents, repeats: true)
 
