@@ -17,16 +17,18 @@ class HistoryCVC: UICollectionViewCell {
         return .init(nibName: identifier, bundle: nil)
     }
     
-    var array_chart_data_entry = [ChartDataEntry]()
+    var array_chart_data_entry = [BarChartDataEntry]()
 
+    
 
-    @IBOutlet weak var historyLineChart: LineChartView!
+    @IBOutlet weak var historyLineChart: BarChartView!
     @IBOutlet weak var labelDate: UILabel!
     
     var firstcChartLegend: LegendEntry!
     override func awakeFromNib() {
         super.awakeFromNib()
         configureChartView()
+        
 
     }
     
@@ -52,31 +54,39 @@ class HistoryCVC: UICollectionViewCell {
     }
     
     fileprivate func setData(){
-        let set1 = LineChartDataSet(entries: array_chart_data_entry)
-        set1.drawCirclesEnabled = false
-        set1.lineWidth = 3
-        set1.fillColor = .black
-        set1.mode = .linear
-        set1.fillAlpha = 0.2
-        set1.fill = Fill(color: .gray)
-        set1.drawFilledEnabled = false
+        
+//        let set1 = LineChartDataSet(entries: array_chart_data_entry)
+        let set1 = BarChartDataSet(entries: array_chart_data_entry)
+
+//        set1.
+//        set1.drawCirclesEnabled = false
+//        set1.lineWidth = 3
+//        set1.fillColor = .black
+//        set1.mode = .linear
+//        set1.fillAlpha = 0.2
+//        set1.fill = Fill(color: .gray)
+//        set1.drawFilledEnabled = false
         set1.setColor(UserDefUtils.userChartTintColor)
         
         
-        let data = LineChartData(dataSet: set1)
+//        let data = LineChartData(dataSet: set1)
+        let data = BarChartData(dataSet: set1)
+
     
         data.setDrawValues(false)
         
         historyLineChart.data = data
     }
     
-    func convertToChartDataEntry(array_adafruit: [AdaFruitResult]){
+    func convertToChartDataEntry(array_adafruit: [AdaFruitResult], isInstanteous:Bool){
         var m = 0.0
         array_chart_data_entry = []
         if array_adafruit.count > 0{
             for single_adafruit in array_adafruit{
                 m = m + 1
-                let single_chart_data_entry = ChartDataEntry(x:m, y: single_adafruit.power)
+                
+//                let single_chart_data_entry = ChartDataEntry(x:m, y: isInstanteous ? single_adafruit.kiloWattHour: single_adafruit.cumulativePower)
+                let single_chart_data_entry = BarChartDataEntry(x:m, y: isInstanteous ? single_adafruit.kiloWattHour: single_adafruit.cumulativePower)
                 array_chart_data_entry.append(single_chart_data_entry)
                 historyLineChart.xAxis.valueFormatter = DateValueFormatter(objects: array_adafruit)
             }

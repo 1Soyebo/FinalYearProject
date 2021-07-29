@@ -26,8 +26,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var lblTodayConsumption: UILabel!
     @IBOutlet weak var daysPageControl: UIPageControl!
     @IBOutlet weak var lblAutomaticRefresh: UILabel!
+    @IBOutlet weak var sgmtCumInst: UISegmentedControl!
     
     
+    var isInstataneous = true
     var timerCallApi:Timer?
     
     var array_Dates = [Date]()
@@ -82,7 +84,11 @@ class HomeViewController: UIViewController {
         }
     }
     
-
+    @IBAction func sgmtCumInstValueChanged(_ sender: Any) {
+        isInstataneous = (sgmtCumInst.selectedSegmentIndex == 0)
+        historyCollectionView.reloadData()
+    }
+    
     fileprivate func configureTimer(){
         timerCallApi = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(getChartData), userInfo: nil, repeats: true)
     }
@@ -124,7 +130,7 @@ class HomeViewController: UIViewController {
     fileprivate func calculateTotalPowerPerDay(arraySmallPower: [AdaFruitResult]){
         var totalPerDay:Double = 0
         for m in arraySmallPower{
-            totalPerDay += m.power
+            totalPerDay += m.kiloWattHour
         }
         
         let o_consum2dp = String(format:"%.2f", totalPerDay)
@@ -186,8 +192,7 @@ class HomeViewController: UIViewController {
                 let iOSTimeStamp = timeStampFormatter.date(from: k) ?? Date()
             
                 let calculatedKilowattHour = (Double(power) ?? 0) * time_diff
-                cumulativePower += calculatedKilowattHour
-                let single_power = AdaFruitResult(current: Double(current) ?? 0, date_stamp: date_stamp ?? "", id: id ?? 0, power: cumulativePower, time_stamp: time_stamp, voltage: Double(voltage) ?? 0, iOSDate: dateStampFormatter.date(from: date_stamp ?? "") ?? Date(), iOSTime: iOSTimeStamp)
+                let single_power = AdaFruitResult(current: Double(current) ?? 0, date_stamp: date_stamp ?? "", id: id ?? 0, power: (Double(power) ?? 0), time_stamp: time_stamp, voltage: Double(voltage) ?? 0, iOSDate: dateStampFormatter.date(from: date_stamp ?? "") ?? Date(), iOSTime: iOSTimeStamp, kiloWattHour: calculatedKilowattHour)
                 
                 array_Dates.append(single_power.iOSDate)
 //                array_power_results.insert(single_power, at: 0)
@@ -219,26 +224,32 @@ class HomeViewController: UIViewController {
                 $0.iOSDate == oneDate
             })
 
-//            print(oneArray.count)
+            var cumulativePower:Double = 0
+            for singlePowerResult in oneArray{
+                cumulativePower += singlePowerResult.kiloWattHour
+                singlePowerResult.cumulativePower = cumulativePower
+            }
+            /** do the sorting for realm
+            print(oneArray.count)
             let oneArrPersistentPowerResult = ArraysPersistentAdaFruit(iOSDate: oneDate)
 
-            for chai in oneArray{
-                let ah = chai.createPAdaObject()
+            for onePowerReslt in oneArray{
+                let ah = onePowerReslt.createPAdaObject()
                 oneArrPersistentPowerResult.listOfPersAdafruits.append(ah)
                 oneArrPersistentPowerResult.consumpitonTotal.value = (oneArrPersistentPowerResult.consumpitonTotal.value ?? 0) + (ah.power.value ?? 0)
             }
             
-//            try! localRealm.write {
-//                localRealm.add(oneArrPersistentPowerResult)
-//            }
-            
+            try! localRealm.write {
+                localRealm.add(oneArrPersistentPowerResult)
+            }
+            **/
             print(oneDate)
             
             
             if oneDate.isToday {
                 todayPower = 0
                 for hm in oneArray{
-                    todayPower += hm.power
+                    todayPower += hm.kiloWattHour
                 }
             }
             
@@ -291,7 +302,6 @@ extension HomeViewController: UNUserNotificationCenterDelegate{
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         if array_power_results.isEmpty{
             return 1
         }else{
@@ -310,7 +320,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         let singleIndexDate = array_Dates[indexPath.item]
         let singleIndexDateString = singleIndexDate.toShortString()
         historyCVCell.labelDate.text = "\(singleIndexDate.isToday ?  ("Today: " + singleIndexDateString):singleIndexDateString)"
-        historyCVCell.convertToChartDataEntry(array_adafruit: self.array_of_array_powerResults[indexPath.item])
+        historyCVCell.convertToChartDataEntry(array_adafruit: self.array_of_array_powerResults[indexPath.item], isInstanteous: isInstataneous)
         historyCVCell.changeLegendColor(theColor: UserDefUtils.userChartTintColor)
         return historyCVCell
     }

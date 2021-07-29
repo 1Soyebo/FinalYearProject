@@ -27,7 +27,24 @@ extension Sequence where Iterator.Element: Hashable {
 
 
 
-struct AdaFruitResult {
+class AdaFruitResult {
+    
+    internal init(current: Double, date_stamp: String, id: Int, power: Double, time_stamp: String, voltage: Double, iOSDate: Date, iOSTime: Date, cumulativePower: Double = 0, kiloWattHour: Double = 0) {
+        self.current = current
+        self.date_stamp = date_stamp
+        self.id = id
+        self.power = power
+        self.time_stamp = time_stamp
+        self.voltage = voltage
+        self.iOSDate = iOSDate
+        self.iOSTime = iOSTime
+        self.cumulativePower = cumulativePower
+        self.kiloWattHour = kiloWattHour
+    }
+    
+    
+    
+    
     var current:Double
     var date_stamp:String
     var id:Int
@@ -36,6 +53,8 @@ struct AdaFruitResult {
     var voltage:Double
     var iOSDate:Date
     var iOSTime:Date
+    var cumulativePower:Double = 0
+    var kiloWattHour:Double = 0
     
     func createPAdaObject() -> PersistentAdaFruit{
         let hmm:PersistentAdaFruit = .init(date_stamp: self.date_stamp, time_stamp: self.time_stamp, iOSDate: self.iOSDate, iOSTime: self.iOSTime)

@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fdj-fR-fpz">
                         <rect key="frame" x="0.0" y="0.0" width="210" height="279"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jfp-qX-Wr7" customClass="LineChartView" customModule="Charts">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jfp-qX-Wr7" customClass="BarChartView" customModule="Charts">
                                 <rect key="frame" x="16" y="16" width="178" height="231"/>
                                 <color key="backgroundColor" systemColor="systemRedColor"/>
                                 <userDefinedRuntimeAttributes>
