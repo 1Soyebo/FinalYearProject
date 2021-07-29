@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="1023"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Wjo-uI-vHg">
-                                        <rect key="frame" x="32" y="609" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="578.5" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Power Consumption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuN-uD-XWX">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -38,7 +38,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Pd9-GX-sQW">
-                                        <rect key="frame" x="32" y="668" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="637.5" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Consumption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHz-jr-X6A">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -55,7 +55,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="rlq-QD-eBn">
-                                        <rect key="frame" x="32" y="46.5" width="311" height="43"/>
+                                        <rect key="frame" x="32" y="16" width="311" height="43"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Available KiloWatt-Hour" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfc-No-6s0">
                                                 <rect key="frame" x="0.0" y="0.0" width="311" height="18"/>
@@ -72,7 +72,7 @@
                                         </subviews>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rvy-Tu-Bdh">
-                                        <rect key="frame" x="32" y="149.5" width="311" height="400"/>
+                                        <rect key="frame" x="32" y="119" width="311" height="400"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="400" id="TIn-tP-wYr"/>
@@ -96,17 +96,11 @@
                                         </cells>
                                     </collectionView>
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="FRe-Kf-XvG">
-                                        <rect key="frame" x="64" y="565.5" width="247" height="27.5"/>
+                                        <rect key="frame" x="64" y="535" width="247" height="27.5"/>
                                         <color key="currentPageIndicatorTintColor" systemColor="systemYellowColor"/>
                                     </pageControl>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhB-UQ-6xk">
-                                        <rect key="frame" x="16" y="16" width="327" height="14.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gaA-zd-1K0">
-                                        <rect key="frame" x="32" y="105.5" width="311" height="32"/>
+                                        <rect key="frame" x="32" y="75" width="311" height="32"/>
                                         <segments>
                                             <segment title="Instantenous"/>
                                             <segment title="Cumulative"/>
@@ -115,28 +109,34 @@
                                             <action selector="sgmtCumInstValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Pr2-iR-iCw"/>
                                         </connections>
                                     </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jhB-UQ-6xk">
+                                        <rect key="frame" x="32" y="696.5" width="311" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="Pd9-GX-sQW" firstAttribute="top" secondItem="Wjo-uI-vHg" secondAttribute="bottom" constant="16" id="0Hy-8N-Uk7"/>
-                                    <constraint firstItem="PbL-Ss-asp" firstAttribute="bottom" secondItem="Pd9-GX-sQW" secondAttribute="bottom" constant="20" id="0qT-N8-yB5"/>
+                                    <constraint firstItem="rlq-QD-eBn" firstAttribute="top" secondItem="PbL-Ss-asp" secondAttribute="top" constant="16" id="1qt-dq-5sM"/>
                                     <constraint firstItem="TuN-uD-XWX" firstAttribute="top" secondItem="FRe-Kf-XvG" secondAttribute="bottom" constant="16" id="69n-s8-Z3S"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="Wjo-uI-vHg" secondAttribute="trailing" constant="32" id="8QP-Ct-jXt"/>
-                                    <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="jhB-UQ-6xk" secondAttribute="trailing" constant="32" id="C0e-gi-KvU"/>
-                                    <constraint firstItem="jhB-UQ-6xk" firstAttribute="top" secondItem="PbL-Ss-asp" secondAttribute="top" constant="16" id="Dlx-J7-NfO"/>
                                     <constraint firstItem="FRe-Kf-XvG" firstAttribute="top" secondItem="rvy-Tu-Bdh" secondAttribute="bottom" constant="16" id="F1e-E7-euK"/>
                                     <constraint firstItem="gaA-zd-1K0" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="G1F-LE-C9Y"/>
-                                    <constraint firstItem="rlq-QD-eBn" firstAttribute="top" secondItem="jhB-UQ-6xk" secondAttribute="bottom" constant="16" id="JTC-fL-K0x"/>
+                                    <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="jhB-UQ-6xk" secondAttribute="trailing" constant="32" id="JQk-gl-sMq"/>
                                     <constraint firstItem="FRe-Kf-XvG" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="64" id="JXf-9h-7E1"/>
+                                    <constraint firstItem="jhB-UQ-6xk" firstAttribute="top" secondItem="Pd9-GX-sQW" secondAttribute="bottom" constant="16" id="MwT-CK-IoC"/>
                                     <constraint firstItem="rlq-QD-eBn" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="NGL-Io-1ft"/>
                                     <constraint firstItem="gaA-zd-1K0" firstAttribute="top" secondItem="rlq-QD-eBn" secondAttribute="bottom" constant="16" id="Oa5-5P-O7p"/>
-                                    <constraint firstItem="jhB-UQ-6xk" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="16" id="PCT-oi-Ko7"/>
                                     <constraint firstItem="Pd9-GX-sQW" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="Rxi-dO-nIJ"/>
                                     <constraint firstItem="p55-Fc-x9a" firstAttribute="trailing" secondItem="rvy-Tu-Bdh" secondAttribute="trailing" constant="32" id="T6n-TE-xzT"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="Pd9-GX-sQW" secondAttribute="trailing" constant="32" id="UXd-aJ-vaZ"/>
                                     <constraint firstItem="Wjo-uI-vHg" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="X1S-0p-3DS"/>
                                     <constraint firstItem="rvy-Tu-Bdh" firstAttribute="leading" secondItem="p55-Fc-x9a" secondAttribute="leading" constant="32" id="aGd-rD-gQw"/>
+                                    <constraint firstItem="PbL-Ss-asp" firstAttribute="bottom" secondItem="jhB-UQ-6xk" secondAttribute="bottom" constant="20" id="aV3-xg-LOF"/>
                                     <constraint firstItem="rvy-Tu-Bdh" firstAttribute="top" secondItem="gaA-zd-1K0" secondAttribute="bottom" constant="13" id="hDD-jj-h8K"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="gaA-zd-1K0" secondAttribute="trailing" constant="32" id="iGT-sB-cJC"/>
+                                    <constraint firstItem="jhB-UQ-6xk" firstAttribute="leading" secondItem="PbL-Ss-asp" secondAttribute="leading" constant="32" id="jpg-Fd-pgz"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="rlq-QD-eBn" secondAttribute="trailing" constant="32" id="ndz-Q4-l09"/>
                                     <constraint firstItem="PbL-Ss-asp" firstAttribute="trailing" secondItem="FRe-Kf-XvG" secondAttribute="trailing" constant="64" id="vL1-Cu-nkz"/>
                                     <constraint firstItem="rlq-QD-eBn" firstAttribute="centerX" secondItem="6JD-XS-SRA" secondAttribute="centerX" id="ybX-Po-SGS"/>
