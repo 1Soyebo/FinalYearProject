@@ -57,7 +57,7 @@ class HomeViewController: UIViewController {
         }
     }
     
-    
+    //MARK:ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Energy Monitor"
@@ -70,13 +70,14 @@ class HomeViewController: UIViewController {
         
     }
     
-    
+    //MARK: ViewDidAppear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         DispatchQueue.main.async { [self] in
             let o_consum2dp = String(format:"%.2f", UserDefUtils.userPurchasedPower - overallConsumption)
             lblAvailable.text = "\(o_consum2dp) kwH"
             lblAutomaticRefresh.text = "Automatic Refresh is turned \(UserDefUtils.isAutomaticRefresh ? "ON":"OFF") in Settings".uppercased()
+            historyCollectionView.reloadData()
             callApiBasedOnAutomaticRefresh()
         }
     }
@@ -155,8 +156,8 @@ class HomeViewController: UIViewController {
             overallConsumption = 0
             todayPower = 0
             
-//            var oldtime:Date = 12.seconds.earlier
             let time_diff:Double = (5/3600) * (1/1000)
+            var cumulativePower:Double = 0
             for power_result in _array_power_reults{
                 
                 let json_power_result = power_result as? [String:Any]
@@ -184,8 +185,9 @@ class HomeViewController: UIViewController {
                 overallConsumption += (Double(power) ?? 0) * time_diff
                 let iOSTimeStamp = timeStampFormatter.date(from: k) ?? Date()
             
-                
-                let single_power = AdaFruitResult(current: Double(current) ?? 0, date_stamp: date_stamp ?? "", id: id ?? 0, power: (Double(power) ?? 0) * time_diff, time_stamp: time_stamp, voltage: Double(voltage) ?? 0, iOSDate: dateStampFormatter.date(from: date_stamp ?? "") ?? Date(), iOSTime: iOSTimeStamp)
+                let calculatedKilowattHour = (Double(power) ?? 0) * time_diff
+                cumulativePower += calculatedKilowattHour
+                let single_power = AdaFruitResult(current: Double(current) ?? 0, date_stamp: date_stamp ?? "", id: id ?? 0, power: cumulativePower, time_stamp: time_stamp, voltage: Double(voltage) ?? 0, iOSDate: dateStampFormatter.date(from: date_stamp ?? "") ?? Date(), iOSTime: iOSTimeStamp)
                 
                 array_Dates.append(single_power.iOSDate)
 //                array_power_results.insert(single_power, at: 0)
@@ -309,6 +311,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         let singleIndexDateString = singleIndexDate.toShortString()
         historyCVCell.labelDate.text = "\(singleIndexDate.isToday ?  ("Today: " + singleIndexDateString):singleIndexDateString)"
         historyCVCell.convertToChartDataEntry(array_adafruit: self.array_of_array_powerResults[indexPath.item])
+        historyCVCell.changeLegendColor(theColor: UserDefUtils.userChartTintColor)
         return historyCVCell
     }
     

@@ -22,11 +22,14 @@ class HistoryCVC: UICollectionViewCell {
 
     @IBOutlet weak var historyLineChart: LineChartView!
     @IBOutlet weak var labelDate: UILabel!
+    
+    var firstcChartLegend: LegendEntry!
     override func awakeFromNib() {
         super.awakeFromNib()
         configureChartView()
 
     }
+    
     
     
 
@@ -37,10 +40,15 @@ class HistoryCVC: UICollectionViewCell {
         historyLineChart.chartDescription?.text = "Time"
         
         
-        let firstLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UserDefUtils.userChartTintColor)
-        historyLineChart.legend.setCustom(entries: [firstLegend])
+        firstcChartLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UserDefUtils.userChartTintColor)
+        historyLineChart.legend.setCustom(entries: [firstcChartLegend])
 //        myLineChart.xAxis.valueFormatter =
         
+    }
+    
+    func changeLegendColor(theColor: UIColor){
+        historyLineChart.legend.textColor = theColor
+        firstcChartLegend.formColor = theColor
     }
     
     fileprivate func setData(){
