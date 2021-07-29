@@ -148,6 +148,12 @@
                                 <segue destination="y9c-Ww-mZ6" kind="presentation" id="tet-3l-qFi"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="7ar-O0-mrh">
+                            <color key="tintColor" systemColor="systemYellowColor"/>
+                            <connections>
+                                <action selector="refreshChartData:" destination="BYZ-38-t0r" id="eJj-Dz-Pxj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <size key="freeformSize" width="375" height="1067"/>
                     <connections>

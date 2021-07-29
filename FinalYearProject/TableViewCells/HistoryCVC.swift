@@ -37,7 +37,7 @@ class HistoryCVC: UICollectionViewCell {
         historyLineChart.chartDescription?.text = "Time"
         
         
-        let firstLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UIColor.yellow)
+        let firstLegend = LegendEntry.init(label: "Power in Kwh", form: .default, formSize: CGFloat.nan, formLineWidth: CGFloat.nan, formLineDashPhase: CGFloat.nan, formLineDashLengths: nil, formColor: UserDefUtils.userChartTintColor)
         historyLineChart.legend.setCustom(entries: [firstLegend])
 //        myLineChart.xAxis.valueFormatter =
         
@@ -52,7 +52,7 @@ class HistoryCVC: UICollectionViewCell {
         set1.fillAlpha = 0.2
         set1.fill = Fill(color: .gray)
         set1.drawFilledEnabled = false
-        set1.setColor(.yellow)
+        set1.setColor(UserDefUtils.userChartTintColor)
         
         
         let data = LineChartData(dataSet: set1)

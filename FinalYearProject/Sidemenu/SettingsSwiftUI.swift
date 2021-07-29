@@ -15,6 +15,7 @@ struct SettingsSwiftUI: View {
     @State private var isAutomaticRefresh = UserDefUtils.isAutomaticRefresh
     
     @State private var dailyTimeNotification = UserDefUtils.dailyNotificationTime
+    @State private var userChartTintColor = Color(UserDefUtils.userChartTintColor)
     
     var body: some View {
       
@@ -38,6 +39,10 @@ struct SettingsSwiftUI: View {
                     DatePicker("Select Preferred Time", selection: $dailyTimeNotification, displayedComponents: .hourAndMinute)
                 }
                 
+                Section(header: Text("Chart Tint Color")){
+                    ColorPicker("Select Chart Tint Color", selection: $userChartTintColor, supportsOpacity: false)
+                }
+                
                 
             }        .navigationTitle("Settings")
 
@@ -47,6 +52,7 @@ struct SettingsSwiftUI: View {
             UserDefUtils.userThresholdPower = Double(thresholdPower) ?? 0
             UserDefUtils.isAutomaticRefresh = isAutomaticRefresh
             UserDefUtils.dailyNotificationTime = dailyTimeNotification
+            UserDefUtils.userChartTintColor = UIColor(userChartTintColor)
         })
         
         

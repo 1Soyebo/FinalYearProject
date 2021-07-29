@@ -43,8 +43,8 @@ class HomeViewController: UIViewController {
     var todayPower:Double = 0{
         didSet{
             UserDefUtils.userTodayConsumptionPower = todayPower
-            let today_consum4dp = String(format:"%.4f", todayPower)
-            lblCurrentPower.text = "\(today_consum4dp) kwH"
+            var today_consum4dp = String(format:"%.4f", todayPower)
+            lblCurrentPower.text = todayPower == 0 ? "You haven't used power today 😦" :"\(today_consum4dp) kwH"
         }
     }
     
@@ -134,6 +134,13 @@ class HomeViewController: UIViewController {
     fileprivate func updateViewControllerValuesAccordingToDay(currentPageNumber:Int){
         calculateTotalPowerPerDay(arraySmallPower: array_of_array_powerResults[currentPageNumber])
         daysPageControl.currentPage = currentPageNumber
+    }
+    
+    
+    @IBAction func refreshChartData(_ sender: Any) {
+        HUD.show(.progress)
+        getChartData()
+        HUD.hide()
     }
     
 

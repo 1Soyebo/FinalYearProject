@@ -9,13 +9,15 @@ import UIKit
 
 class UserDefUtils {
     
-    static private var purchasedPowerKey = "purchasedPower"
-    static private var userConsumedTodayPower = "todayPower"
-    static private var thresholdPowerKey = "thresholdPower"
-    static private var usersOverallPowerConsumptionKey = "overallPower"
-    static private var usersIsAutomaticRefresh = "isAutomaticRefresh"
-    static private var userDailyNotificationTime = "timeDailyNotification"
-    static let dailyNotificationIdentifier  = "dailyNotificaton"
+    static private let purchasedPowerKey = "purchasedPower"
+    static private let userConsumedTodayPowerKey = "todayPower"
+    static private let thresholdPowerKey = "thresholdPower"
+    static private let usersOverallPowerConsumptionKey = "overallPower"
+    static private let usersIsAutomaticRefresh = "isAutomaticRefresh"
+    static private let userDailyNotificationTime = "timeDailyNotification"
+    static private let dailyNotificationIdentifier  = "dailyNotificaton"
+    static private let chartTintColorKey = "chartColor"
+
 
 
     static let hmmcenter = UNUserNotificationCenter.current()
@@ -72,7 +74,7 @@ class UserDefUtils {
 //            hmmcenter.removeAllPendingNotificationRequests()
             hmmcenter.add(updateDailyNotification()){
                 (error) in
-                print(error?.localizedDescription)
+                print(error?.localizedDescription ?? "")
             }
 //            UIApplication.shared.applicationIconBadgeNumber += 1
         }
@@ -80,10 +82,36 @@ class UserDefUtils {
     
     static var userTodayConsumptionPower:Double{
         get{
-            return  UserDefaults.standard.double(forKey: userConsumedTodayPower)
+            return  UserDefaults.standard.double(forKey: userConsumedTodayPowerKey)
         }
         set{
-            UserDefaults.standard.set(newValue, forKey: userConsumedTodayPower)
+            UserDefaults.standard.set(newValue, forKey: userConsumedTodayPowerKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    static var userChartTintColor:UIColor{
+        get{
+            var colorReturnded: UIColor?
+            if let colorData = UserDefaults.standard.data(forKey: chartTintColorKey) {
+              do {
+                if let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor {
+                  colorReturnded = color
+                }
+              } catch {
+                print("Error UserDefaults")
+              }
+            }
+            return colorReturnded ?? .turquoise
+        }set{
+            var colorData: NSData?
+            do {
+              let data = try NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) as NSData?
+              colorData = data
+            } catch {
+              print("Error UserDefaults")
+            }
+            UserDefaults.standard.set(colorData, forKey: chartTintColorKey)
             UserDefaults.standard.synchronize()
         }
     }
@@ -91,7 +119,7 @@ class UserDefUtils {
     fileprivate static func updateDailyNotification() -> UNNotificationRequest{
         let content = UNMutableNotificationContent()
         content.title = "Today's Power Consumption 💡"
-        content.body = "Ibukunoluwa, you have used up \(String(format: "%.2f", UserDefUtils.userConsumedTodayPower)) kwH today"
+        content.body = "Ibukunoluwa, you have used up \(String(format: "%.4f", UserDefUtils.userTodayConsumptionPower)) kwH today"
         content.categoryIdentifier = "alarm"
         content.userInfo = ["customData": "fizzbuzz"]
         content.sound = .defaultCritical
@@ -110,4 +138,33 @@ class UserDefUtils {
         return request
     }
     
+}
+
+extension UserDefaults {
+  func colorForKey(key: String) -> UIColor? {
+    var colorReturnded: UIColor?
+    if let colorData = data(forKey: key) {
+      do {
+        if let color = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(colorData) as? UIColor {
+          colorReturnded = color
+        }
+      } catch {
+        print("Error UserDefaults")
+      }
+    }
+    return colorReturnded
+  }
+  
+  func setColor(color: UIColor?, forKey key: String) {
+    var colorData: NSData?
+    if let color = color {
+      do {
+        let data = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false) as NSData?
+        colorData = data
+      } catch {
+        print("Error UserDefaults")
+      }
+    }
+    set(colorData, forKey: key)
+  }
 }
