@@ -54,7 +54,8 @@ class HomeViewController: UIViewController {
     
     var overallConsumption:Double = 0{
         didSet{
-            let o_consum2dp = String(format:"%.2f", UserDefUtils.userPurchasedPower - overallConsumption)
+            UserDefUtils.userAvailablePower = UserDefUtils.userPurchasedPower - overallConsumption
+            let o_consum2dp = String(format:"%.2f", UserDefUtils.userAvailablePower)
             lblAvailable.text = "\(o_consum2dp) kwH"
         }
     }

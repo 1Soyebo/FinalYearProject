@@ -13,6 +13,7 @@ class UserDefUtils {
     static private let userConsumedTodayPowerKey = "todayPower"
     static private let thresholdPowerKey = "thresholdPower"
     static private let usersOverallPowerConsumptionKey = "overallPower"
+    static private let userAvailablePowerKey = "availablePower"
     static private let usersIsAutomaticRefresh = "isAutomaticRefresh"
     static private let userDailyNotificationTime = "timeDailyNotification"
     static private let dailyNotificationIdentifier  = "dailyNotificaton"
@@ -50,6 +51,16 @@ class UserDefUtils {
         }
         set{
             UserDefaults.standard.set(newValue, forKey: usersOverallPowerConsumptionKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    static var userAvailablePower:Double{
+        get{
+            return  UserDefaults.standard.double(forKey: userAvailablePowerKey)
+        }
+        set{
+            UserDefaults.standard.set(newValue, forKey: userAvailablePowerKey)
             UserDefaults.standard.synchronize()
         }
     }
@@ -119,7 +130,7 @@ class UserDefUtils {
     fileprivate static func updateDailyNotification() -> UNNotificationRequest{
         let content = UNMutableNotificationContent()
         content.title = "Today's Power Consumption 💡"
-        content.body = "Ibukunoluwa, you have used up \(String(format: "%.4f", UserDefUtils.userTodayConsumptionPower)) kwH today"
+        content.body = "Ibukunoluwa, you have used up \(String(format: "%.4f", UserDefUtils.userTodayConsumptionPower)) kwH today. You have \(String(format: "%.4f", UserDefUtils.userAvailablePower)) left"
         content.categoryIdentifier = "alarm"
         content.userInfo = ["customData": "fizzbuzz"]
         content.sound = .defaultCritical
