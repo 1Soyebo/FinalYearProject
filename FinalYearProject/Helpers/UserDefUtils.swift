@@ -130,7 +130,7 @@ class UserDefUtils {
     fileprivate static func updateDailyNotification() -> UNNotificationRequest{
         let content = UNMutableNotificationContent()
         content.title = "Today's Power Consumption 💡"
-        content.body = "Ibukunoluwa, you have used up \(String(format: "%.4f", UserDefUtils.userTodayConsumptionPower)) kwH today. You have \(String(format: "%.4f", UserDefUtils.userAvailablePower)) left"
+        content.body = "Ibukunoluwa, you have used up \(String(format: "%.4f", UserDefUtils.userTodayConsumptionPower)) kwH today. You have \(String(format: "%.2f", UserDefUtils.userAvailablePower)) kwH left"
         content.categoryIdentifier = "alarm"
         content.userInfo = ["customData": "fizzbuzz"]
         content.sound = .defaultCritical
