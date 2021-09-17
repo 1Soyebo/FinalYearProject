@@ -20,7 +20,7 @@ struct SettingsSwiftUI: View {
     var body: some View {
       
             Form{
-                Section(header: Text("Power Purchased in kwH")){
+                Section(header: Text("Energy Purchased in kwH")){
                     TextField("How much power did you purchase", text: $purchasedPower)
                         .keyboardType(.decimalPad)
                 }
