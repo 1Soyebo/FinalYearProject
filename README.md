@@ -1,4 +1,4 @@
-# FinalYearProject
+# Home Energy Monitor
 Notification Based Energy Monitoring iOS App 🚀
 
 This is an iOS app that acts as a GUI for a Smart Energy Meter. It allows users to view their energy consumption in instantaneous and cumulative modes.     
